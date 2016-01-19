@@ -1,4 +1,3 @@
-@del C:\custom\*~ > nul
 @if "%1" == "" GOTO h
 @if %1 == g GOTO git
 @if %1 == . GOTO exp
