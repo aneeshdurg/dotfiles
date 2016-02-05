@@ -3,6 +3,8 @@
 @if %1 == . GOTO exp
 @if %1 == n GOTO note
 @if %1 == w GOTO word
+@if %1 == s GOTO svn
+@if %1 == ~ GOTO clean
 
 @GOTO h
 :h
@@ -10,7 +12,9 @@
 @echo functions:
 @echo n - notes
 @echo g - cd github
+@echo s - cd svn
 @echo . - open explorer
+@echo ~ - clean~
 @echo ------------------
 @GOTO EOF
 :exp
@@ -25,5 +29,12 @@
 @GOTO EOF
 :word
 @"C:\Program Files\Microsoft Office 15\root\office15\winword.exe" %2
+GOTO EOF
+:svn
+@cd "C:\Users\Aneesh Durg\Desktop\Work\svn\"
+@GOTO EOF
+:clean
+@clean~
+@GOTO EOF
 :EOF
 
