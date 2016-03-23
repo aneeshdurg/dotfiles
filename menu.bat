@@ -5,6 +5,8 @@
 @if %1 == w GOTO word
 @if %1 == s GOTO svn
 @if %1 == ~ GOTO clean
+@if %1 == sd GOTO saveDir
+@if %1 == rd GOTO restoreDir
 
 @GOTO h
 :h
@@ -35,6 +37,13 @@ GOTO EOF
 @GOTO EOF
 :clean
 @clean~
+@GOTO EOF
+:saveDir
+@cd>C:\custom\saveddir.txt
+@GOTO EOF
+:restoreDir
+@set /p d=<C:\custom\saveddir.txt
+@cd %d%
 @GOTO EOF
 :EOF
 
