@@ -7,6 +7,7 @@
 @if %1 == ~ GOTO clean
 @if %1 == sd GOTO saveDir
 @if %1 == rd GOTO restoreDir
+@if %1 == csd GOTO clearSavedDir
 
 @GOTO h
 :h
@@ -17,6 +18,8 @@
 @echo s - cd svn
 @echo . - open explorer
 @echo ~ - clean~
+@echo sd- save directory
+@echo rd- restore directory
 @echo ------------------
 @GOTO EOF
 :exp
@@ -39,11 +42,14 @@ GOTO EOF
 @clean~
 @GOTO EOF
 :saveDir
-@cd>C:\custom\saveddir.txt
+@cd>C:\custom\saveddir%2.txt
 @GOTO EOF
 :restoreDir
-@set /p d=<C:\custom\saveddir.txt
+@set /p d=<C:\custom\saveddir%2.txt
 @cd %d%
+@GOTO EOF
+:clearSavedDir
+@del C:\custom\saveddir*
 @GOTO EOF
 :EOF
 
