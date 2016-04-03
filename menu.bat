@@ -56,7 +56,8 @@ GOTO EOF
 @del C:\custom\saveddir*
 @GOTO EOF
 :listSavedDir
-@type saveddir*
+@type C:\custom\saveddir*
+@pause
 @GOTO EOF
 :EOF
 
