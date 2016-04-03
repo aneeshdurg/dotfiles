@@ -8,6 +8,7 @@
 @if %1 == sd GOTO saveDir
 @if %1 == rd GOTO restoreDir
 @if %1 == csd GOTO clearSavedDir
+@if %1 == ls GOTO listSavedDir
 
 @GOTO h
 :h
@@ -20,6 +21,8 @@
 @echo ~ - clean~
 @echo sd- save directory
 @echo rd- restore directory
+@echo ls- list saved directories
+@echo csd-clear saved directories
 @echo ------------------
 @GOTO EOF
 :exp
@@ -51,6 +54,9 @@ GOTO EOF
 @GOTO EOF
 :clearSavedDir
 @del C:\custom\saveddir*
+@GOTO EOF
+:listSavedDir
+@type saveddir*
 @GOTO EOF
 :EOF
 
