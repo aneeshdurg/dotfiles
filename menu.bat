@@ -27,7 +27,7 @@
 @GOTO EOF
 :git
 @C:
-@cd "C:\Users\Aneesh Durg\Desktop\Work\github\"
+@cd "C:\Users\Aneesh Durg\Desktop\Work\github\%2" 
 @GOTO EOF
 :note
 @vim "C:\Users\Aneesh Durg\~StickyNotes"
@@ -45,6 +45,7 @@ GOTO EOF
 @cd>C:\custom\saveddir%2.txt
 @GOTO EOF
 :restoreDir
+@C:
 @set /p d=<C:\custom\saveddir%2.txt
 @cd %d%
 @GOTO EOF
