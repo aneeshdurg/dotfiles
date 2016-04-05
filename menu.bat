@@ -7,7 +7,7 @@
 @if %1 == ~ GOTO clean
 @if %1 == sd GOTO saveDir
 @if %1 == rd GOTO restoreDir
-@if %1 == csd GOTO clearSavedDir
+@if %1 == cs GOTO clearSavedDir
 @if %1 == ls GOTO listSavedDir
 
 @GOTO h
@@ -22,7 +22,7 @@
 @echo sd- save directory
 @echo rd- restore directory
 @echo ls- list saved directories
-@echo csd-clear saved directories
+@echo cs- clear saved directories
 @echo ------------------
 @GOTO EOF
 :exp
