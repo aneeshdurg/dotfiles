@@ -1,1 +1,0 @@
-"C:\Program Files\Java\.jdk1.6.0_45\bin\javac.exe" %1
