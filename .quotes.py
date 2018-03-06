@@ -25,9 +25,9 @@ quotes = [
     "Only the inanimate may be so alive.\n\t-David Mitchell, Cloud Atlas",
     'The mind is not like raindrops. It does not fall from the skies, it does not lose itself among other things.\n\t-Haruki Murakami, Hard Boiled Wonderland And The End Of The World',
     "Distilled for the eradication of seemingly incurable sadness.\n\t-Cillian Murphy, Peaky Blinders",
-    "If books were girls, and reading was fucking, this would be the biggest whorehouse in the country and I'd be the most ruthless pimp you ever met.\n\t-Joe Hill, NOS4A2" ,
     "Come here you worthless pup. Come here and take your medicine!\n\t-Stephen King, The Shining",
-    "Arguing with anonymous strangers on the Internet is a sucker's game because they almost always turn out to be—or to be indistinguishable from—self-righteous sixteen-year-olds possessing infinite amounts of free time.\n\t-Neal Stephenson, Cryptonomicon"
+    "Arguing with anonymous strangers on the Internet is a sucker's game because they almost always turn out to be—or to be indistinguishable from—self-righteous sixteen-year-olds possessing infinite amounts of free time.\n\t-Neal Stephenson, Cryptonomicon",
+    "But everyone also lives in the world inside their own head. An \x1B[3minscape\x1B[0m, a world of thought.\n\t-Joe Hill, NOS4A2"
     ]
 
 r = randint(0, len(quotes)-1)
