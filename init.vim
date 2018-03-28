@@ -19,4 +19,5 @@ set softtabstop=2
 
 colorscheme molokai
 
-
+map <C-j> <C-e>
+map <C-k> <C-y>
