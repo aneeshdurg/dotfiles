@@ -21,3 +21,5 @@ colorscheme molokai
 
 map <C-j> <C-e>
 map <C-k> <C-y>
+
+set mouse=a

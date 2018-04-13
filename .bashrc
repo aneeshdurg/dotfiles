@@ -136,3 +136,5 @@ alias wu-tang='~/dotfiles/wu-tang.sh'
 export GOPATH=/usr/share/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 export ANDROID_HOME=/home/aneesh/Android/Sdk/
+
+source ~/dotfiles/z/z.sh
