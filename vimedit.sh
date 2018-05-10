@@ -4,19 +4,32 @@ maketex() {
 }
 
 _vimedit(){
-  while [ true ];
+  while [ true ]
   do 
-    maketex $1
-    sleep 2;
-  done;
+    if ps -p $1 > /dev/null
+    then
+      maketex $3
+      sleep 2;
+    else
+      kill $2
+      break
+    fi
+  done
 }
 
 vimedit() { 
   touch $1.tex
   maketex $1
-  xdg-open $1.pdf
-  _vimedit $1 > /dev/null 2>err_log & 
-  vim $1.tex 
+  ps > /tmp/vimedit_ps1
+  xdg-open $1.pdf;
+  ps > /tmp/vimedit_ps2
+  viewerpid=$(diff /tmp/vimedit_ps1 /tmp/vimedit_ps2 | grep -v "ps" | tail -1 | cut -d\  -f2)
+  rm /tmp/vimedit_ps1 /tmp/vimedit_ps2
+  vim $1.tex &
+  jid=$(jobs -l | cut -d[ -f2 | cut -d] -f1)
+  pid=$(jobs -l | cut -d\  -f2)
+  _vimedit $pid $viewerpid $1 > /dev/null 2>err_log & 
+  fg $jid
 }
 
 export vimedit
