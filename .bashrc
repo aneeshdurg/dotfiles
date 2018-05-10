@@ -15,3 +15,4 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 export ANDROID_HOME=/home/aneesh/Android/Sdk/
 
 source ~/dotfiles/z/z.sh
+source ~/dotfiles/vimedit.sh
