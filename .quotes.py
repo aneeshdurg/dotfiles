@@ -27,7 +27,8 @@ quotes = [
     "Distilled for the eradication of seemingly incurable sadness.\n\t-Cillian Murphy, Peaky Blinders",
     "Come here you worthless pup. Come here and take your medicine!\n\t-Stephen King, The Shining",
     "Arguing with anonymous strangers on the Internet is a sucker's game because they almost always turn out to be—or to be indistinguishable from—self-righteous sixteen-year-olds possessing infinite amounts of free time.\n\t-Neal Stephenson, Cryptonomicon",
-    "But everyone also lives in the world inside their own head. An \x1B[3minscape\x1B[0m, a world of thought.\n\t-Joe Hill, NOS4A2"
+    "But everyone also lives in the world inside their own head. An \x1B[3minscape\x1B[0m, a world of thought.\n\t-Joe Hill, NOS4A2",
+    "Dance. As long as the music plays.\n\t-Haruki Murakami, Dance Dance Dance"
     ]
 
 r = randint(0, len(quotes)-1)
