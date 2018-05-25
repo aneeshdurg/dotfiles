@@ -36,3 +36,4 @@ map <C-c><C-c> :set colorcolumn=81<CR>
 map <C-c><C-d> :set colorcolumn=0 <CR>
 map <C-c><C-n> :set number!<CR>
 
+set dictionary+=/usr/share/dict/words
