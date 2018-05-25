@@ -6,6 +6,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'tomasr/molokai'
 Plug 'altercation/vim-colors-solarized'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'FooSoft/vim-argwrap'
 " Initialize plugin system
 call plug#end()
 
@@ -30,9 +32,13 @@ map <C-k> <C-y>
 
 set mouse=a
 
+autocmd FileType * set colorcolumn=81
+autocmd FileType javascript set colorcolumn=121
 tnoremap <Esc> <C-\><C-n>
 
 map <C-c><C-c> :set colorcolumn=81<CR>
-map <C-c><C-d> :set colorcolumn=0 <CR>
+map <C-c><C-d> :s/  *$//g <CR>
 map <C-c><C-n> :set number!<CR>
 
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
