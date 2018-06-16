@@ -2,6 +2,7 @@
 alias iman='~/.man.sh'
 #eval $(thefuck --alias oops)
 
+# requires https://github.com/mhinz/neovim-remote
 getvim(){ [ -z "$NVIM_ACTIVE" ] && echo "nvim" || echo "nvr -cc vsp"; }
 alias rsx='redshift -x'
 alias rson='redshift -O 3500'
