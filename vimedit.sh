@@ -1,14 +1,14 @@
 maketex() {
   # Compile input from stdin to dynamically generate makefile
-  echo -e "all: $1.pdf\n\n$1.pdf: $1.tex\n\tpdflatex $1.tex" | 
-    timeout 2 make -f /dev/stdin
+  echo -e "all: $1.pdf\n\n$1.pdf: $1.tex\n\tpdflatex $1.tex" |
+    timeout 5 make -f /dev/stdin
 }
 
 _vimedit(){
   echo "PS COMMAND: ps -p $1"
   echo "$1 $2 $3"
   while [ true ]
-  do 
+  do
     # If vim is still running
     if ps -p $1 > /dev/null
     then
@@ -22,10 +22,10 @@ _vimedit(){
   done
 }
 
-vimedit() { 
+vimedit() {
   # make sure source file exists and generate pdf
   touch $1.tex
-  maketex $1 
+  maketex $1
 
   # Start pdf viewer and get pid by checking ps before and after xdg-open
   ps > /tmp/vimedit_ps1
@@ -42,7 +42,7 @@ vimedit() {
   pid=$(jobs -l | tail -1 | cut -d\  -f2)
 
   # Start compiling latex in background
-  _vimedit $pid $viewerpid $1 >/dev/null 2>err_log & 
+  _vimedit $pid $viewerpid $1 >/dev/null 2>err_log &
 
   # Foreground vim
   fg $jid
