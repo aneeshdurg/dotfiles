@@ -1,4 +1,3 @@
-~/dotfiles/.quotes.py
 alias iman='~/.man.sh'
 #eval $(thefuck --alias oops)
 
@@ -21,4 +20,14 @@ source ~/dotfiles/z/z.sh
 source ~/dotfiles/vimedit.sh
 
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+~/dotfiles/.quotes.py
 
+print_all_colors() {
+    for x in {30..37}
+    do 
+        for y in {1..2}
+            do echo -ne "\033[${y};${x}m█\033[0m"
+        done
+    done
+    echo ""
+}

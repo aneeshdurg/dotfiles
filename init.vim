@@ -42,6 +42,7 @@ set makeprg=build
 
 let $NVIM_ACTIVE="true"
 
+autocmd TermOpen * set nonumber
 autocmd FileType * set colorcolumn=81
 autocmd FileType javascript set colorcolumn=121
 tnoremap <Esc><Esc> <C-\><C-n>
