@@ -15,11 +15,14 @@ Plug 'mhinz/vim-startify'
 " Initialize plugin system
 call plug#end()
 
-
+" let $NVIM_LISTEN_ADDRESS = system("mktemp --suffix=vimserver")
 
 set nohlsearch
 let g:rehash256 = 1
 let g:molokai_original = 1
+
+let g:startify_custom_header =
+    \ 'map(split(system("date +\"%a, %b %d %Y\" | figlet -f small"), "\n"), "\"   \". v:val")'
 
 set expandtab
 set tabstop=2
@@ -40,8 +43,13 @@ set mouse=a
 
 set makeprg=build
 
+" Set environment variable to let subprocess of nvim know that they are spawned
+" from a vim process. se .bashrc for an example of how this can be used to avoid
+" opening recursive instances of vim.
 let $NVIM_ACTIVE="true"
 
+" autocmd VimLeave * !rm $NVIM_LISTEN_ADDRESS
+autocmd FileType startify DisableWhitespace
 autocmd FileType * set colorcolumn=81
 autocmd FileType javascript set colorcolumn=121
 tnoremap <Esc><Esc> <C-\><C-n>
@@ -61,7 +69,9 @@ nnoremap <silent> <leader>a :ArgWrap<CR>
 " inoremap ` ``<ESC>i
 " let g:ctrlp_map = '<c-p>'
 " let g:ctrlp_cmd = 'CtrlP'
-source ~/src/tools/editors/vim/plugin/figlet.vim
+if filereadable("~/src/tools/editors/vim/plugin/figlet.vim")
+    source ~/src/tools/editors/vim/plugin/figlet.vim
+endif
 
 set dictionary=/usr/share/dict/words
 set wildignorecase
