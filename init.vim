@@ -55,7 +55,7 @@ tnoremap <Esc><Esc> <C-\><C-n>
 " Saves buffer to variable which can be used to move buffers around easily.
 " <C-c><C-c> will save the buffer
 " <C-c><C-x> will save the buffer and then close the split
-" <C-c>)C-p> will resotre a saved buffer
+" <C-c><C-p> will resotre a saved buffer
 map <C-c><C-c> :let g:saved_bufnum=bufnr('%')<CR>
 map <C-c><C-x> :let g:saved_bufnum=bufnr('%') \| q <CR>
 map <C-c><C-p> :exe "b"g:saved_bufnum<CR>
