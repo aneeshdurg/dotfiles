@@ -52,9 +52,14 @@ autocmd FileType * set colorcolumn=81
 autocmd FileType javascript set colorcolumn=121
 tnoremap <Esc><Esc> <C-\><C-n>
 
-map <C-c><C-c> :set colorcolumn=81<CR>
-map <C-c><C-d> :s/  *$//g <CR>
-map <C-c><C-n> :set number!<CR>
+" Saves buffer to variable which can be used to move buffers around easily.
+" <C-c><C-c> will save the buffer
+" <C-c><C-x> will save the buffer and then close the split
+" <C-c>)C-p> will resotre a saved buffer
+map <C-c><C-c> :let g:saved_bufnum=bufnr('%')<CR>
+map <C-c><C-x> :let g:saved_bufnum=bufnr('%') \| q <CR>
+map <C-c><C-p> :exe "b"g:saved_bufnum<CR>
+
 map <C-w><C-m> :sp<CR> :wincmd T<CR>
 
 nnoremap <C-p> :FuzzyOpen<CR>
@@ -73,3 +78,11 @@ endif
 
 set dictionary=/usr/share/dict/words
 set wildignorecase
+
+function DeleteHiddenBuffers()
+    let tpbl=[]
+    call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
+    for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
+        silent execute 'bwipeout' buf
+    endfor
+endfunction
