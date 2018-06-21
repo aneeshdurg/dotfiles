@@ -50,6 +50,8 @@ autocmd FileType startify DisableWhitespace
 autocmd TermOpen * set nonumber
 autocmd FileType * set colorcolumn=81
 autocmd FileType javascript set colorcolumn=121
+autocmd FileType gitcommit nnoremap q :bd<CR>
+autocmd FileType gitcommit nnoremap wq :w\|bd<CR>
 tnoremap <Esc><Esc> <C-\><C-n>
 
 " Saves buffer to variable which can be used to move buffers around easily.
@@ -79,7 +81,7 @@ endif
 set dictionary=/usr/share/dict/words
 set wildignorecase
 
-function DeleteHiddenBuffers()
+function! DeleteHiddenBuffers()
     let tpbl=[]
     call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
     for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
