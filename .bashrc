@@ -1,6 +1,19 @@
-~/dotfiles/.quotes.py
 alias iman='~/.man.sh'
 #eval $(thefuck --alias oops)
+
+export ANSI_BLUE="\033[0;34m"
+export ANSI_YELLOW="\033[0;33m"
+export ANSI_GREEN="\033[0;32m"
+export ANSI_RED="\033[0;31m"
+export ANSI_NC="\033[0m"
+
+if [ ! -z "$NVIM_ACTIVE" ]
+then
+    echo -e "${ANSI_GREEN}"
+    figlet -f small "NVIM SUBSHELL"
+    echo -e "${ANSI_NC}"
+
+fi
 
 # requires https://github.com/mhinz/neovim-remote
 # install using pip3 install neovim-remote
@@ -20,3 +33,16 @@ export ANDROID_HOME=/home/aneesh/Android/Sdk/
 
 source ~/dotfiles/z/z.sh
 source ~/dotfiles/vimedit.sh
+
+export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+~/dotfiles/.quotes.py
+
+print_all_colors() {
+    for x in {30..37}
+    do 
+        for y in {1..2}
+            do echo -ne "\033[${y};${x}m█\033[0m"
+        done
+    done
+    echo ""
+}

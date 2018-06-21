@@ -15,8 +15,6 @@ Plug 'mhinz/vim-startify'
 " Initialize plugin system
 call plug#end()
 
-" let $NVIM_LISTEN_ADDRESS = system("mktemp --suffix=vimserver")
-
 set nohlsearch
 let g:rehash256 = 1
 let g:molokai_original = 1
@@ -48,8 +46,8 @@ set makeprg=build
 " opening recursive instances of vim.
 let $NVIM_ACTIVE="true"
 
-" autocmd VimLeave * !rm $NVIM_LISTEN_ADDRESS
 autocmd FileType startify DisableWhitespace
+autocmd TermOpen * set nonumber
 autocmd FileType * set colorcolumn=81
 autocmd FileType javascript set colorcolumn=121
 tnoremap <Esc><Esc> <C-\><C-n>
