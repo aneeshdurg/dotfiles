@@ -1,7 +1,3 @@
-
-alias iman='~/.man.sh'
-which fuck 2>&1 >/dev/null && eval $(thefuck --alias oops)
-
 # vi editing mode for maximum productivity
 set -o vi
 
@@ -24,12 +20,12 @@ print_all_colors() {
     echo ""
 }
 
-# Requires redshift
+# redshift shortcuts
 alias rsx='redshift -x'
 alias rson='redshift -O 3500'
 # configure view to work with nvim
 alias view='nvim -R'
-# ldc2 is aesthetically unpleasing to me
+# compilers/frameworks
 alias ldc='ldc2'
 # I don't want node-js in my path, so I've made aliases to things I want to use.
 alias react-native='/usr/bin/nodejs8/bin/react-native'
@@ -47,6 +43,14 @@ source ~/dotfiles/z/z.sh
 # Some script I wrote for editing and compiling latex
 source ~/dotfiles/vimedit.sh
 
+bluetooth_hack() {
+    while [ true ]
+        do sudo pactl set-card-profile bluez_card.20_9B_A5_5B_B6_55 a2dp_sink
+        sleep 1
+    done
+}
+
+which fuck 2>&1 >/dev/null && eval $(thefuck --alias oops)
 
 #                  _                  _       _        _ _
 # _ _  ___ _____ _(_)_ __ ___ ____  _| |__ __| |_  ___| | |
@@ -79,13 +83,14 @@ if [ ! -z "$NVIM_ACTIVE" ]
 then
     export EDITOR="$EDITOR --remote-wait"
 fi
+export HGEDITOR=$EDITOR
 
-bluetooth_hack() {
-    while [ true ]
-        do sudo pactl set-card-profile bluez_card.20_9B_A5_5B_B6_55 a2dp_sink
-        sleep 1
-    done
-}
+# vim short cuts
+alias vim='$(getvim)'
+alias view='nvim -R'
+alias sp='nvr -cc sp'
+alias vs='nvr -cc vsp'
+alias e='$(getvim)'
 
 # Print out a random quote before yielding to the user
 ~/dotfiles/.quotes.py
@@ -96,3 +101,6 @@ tmux_status() {
     echo -ne "\033[0m"
 }
 tmux ls 2>/dev/null >/dev/null && tmux_status
+
+
+[ "$TMUX" != "" ] && [ "$NVIM_ACTIVE" == "" ] && exec nvim -c "terminal"
