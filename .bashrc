@@ -58,5 +58,9 @@ export ANDROID_HOME=/home/aneesh/Android/Sdk/
 source ~/dotfiles/z/z.sh
 source ~/dotfiles/vimedit.sh
 
+which fuck > /dev/null && eval $(thefuck --alias oops)
+
 # Print quote
 ~/dotfiles/.quotes.py
+
+[ "$TMUX" != "" ] && [ "$NVIM_ACTIVE" == "" ] && exec nvim -c "terminal"

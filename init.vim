@@ -57,8 +57,7 @@ set wildignorecase
 "
 set expandtab
 set tabstop=2
-"set shiftwidth=2
-set shiftwidth=4
+set shiftwidth=2
 set softtabstop=2
 
 " Scroll up/down
@@ -91,6 +90,23 @@ tnoremap <Esc><Esc> <C-\><C-n>
 map <C-c><C-c> :let g:saved_bufnum=bufnr('%')<CR>
 map <C-c><C-x> :let g:saved_bufnum=bufnr('%') \| q <CR>
 map <C-c><C-p> :exe "b"g:saved_bufnum<CR>
+
+function! ClangFormatDiff()
+  let diff_result = system("diff <(clang-format ".bufname("%").") ".bufname("%"))
+  if diff_result == ""
+    echo "Formatting looks good!"
+    return
+  endif
+
+  echo diff_result
+  let do_diff = confirm('Perform diff?', "&Yes\n&No", 2)
+  if do_diff == 1
+    call system("clang-format -i ".bufname("%"))
+    edit
+    redraw
+  endif
+endfunc
+map <C-c><C-f> :call ClangFormatDiff()<CR>
 
 " Toggles mouse enabled by pressing <C-c><C-m>
 function! ToggleMouse()
