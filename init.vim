@@ -109,6 +109,9 @@ function! ClangFormatDiff()
   if do_diff == 1
     call system("clang-format -i ".bufname("%"))
     edit
+    undo
+    write
+    redo
     redraw
   endif
 endfunc
