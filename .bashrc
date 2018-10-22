@@ -1,6 +1,9 @@
 
 alias iman='~/.man.sh'
-#eval $(thefuck --alias oops)
+which fuck 2>&1 >/dev/null && eval $(thefuck --alias oops)
+
+# vi editing mode for maximum productivity
+set -o vi
 
 # Commonly used colors for use inside echo statements
 export ANSI_BLUE="\033[0;34m"
@@ -77,6 +80,19 @@ then
     export EDITOR="$EDITOR --remote-wait"
 fi
 
+bluetooth_hack() {
+    while [ true ]
+        do sudo pactl set-card-profile bluez_card.20_9B_A5_5B_B6_55 a2dp_sink
+        sleep 1
+    done
+}
+
 # Print out a random quote before yielding to the user
 ~/dotfiles/.quotes.py
 
+tmux_status() {
+    echo -ne "Running tmux sessions: \n\t\033[1;32m"
+    tmux ls
+    echo -ne "\033[0m"
+}
+tmux ls 2>/dev/null >/dev/null && tmux_status

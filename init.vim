@@ -12,6 +12,7 @@ Plug 'Numkil/ag.nvim' " requires ag
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'mhinz/vim-startify'
+Plug 'lambdalisue/suda.vim'
 " Initialize plugin system
 call plug#end()
 
@@ -46,6 +47,7 @@ set makeprg=build
 " opening recursive instances of vim.
 let $NVIM_ACTIVE="true"
 
+autocmd BufNewFile,BufRead *.qs set syntax=cs
 autocmd FileType startify DisableWhitespace
 autocmd TermOpen * set nonumber
 autocmd FileType * set colorcolumn=81
