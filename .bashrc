@@ -77,7 +77,10 @@ fi
 getvim(){ [ -z "$NVIM_ACTIVE" ] && echo "nvim" || echo "nvr -cc vsp"; }
 alias vim='$(getvim)'
 
-export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+if [ -z "$NVIM_LISTEN_ADDRESS" ]
+then
+    export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+fi
 export EDITOR="$(getvim)"
 if [ ! -z "$NVIM_ACTIVE" ]
 then
@@ -102,5 +105,18 @@ tmux_status() {
 }
 tmux ls 2>/dev/null >/dev/null && tmux_status
 
+VIM_SESSIONS=$(ls ~ | grep \.*vim$ | tr ' ' '\n')
+if [ "$VIM_SESSIONS" != "" ]
+then
+  echo -ne "Saved vim sessions: \n\033[1;32m"
+  ls ~ | grep \.*vim$ | sed 's/^/\t/'
+  echo -ne "\033[0m"
+fi
 
-[ "$TMUX" != "" ] && [ "$NVIM_ACTIVE" == "" ] && exec nvim -c "terminal"
+
+#TMUX_PROG='nvim -c "terminal"'
+#[ "$TMUX" != "" ] && [ "$NVIM_ACTIVE" == "" ] && exec $TMUX_PROG
+bind '"\e[1;5D" backward-word'
+bind '"\e[1;5C" forward-word'
+
+cat ~/.messages 2>/dev/null
