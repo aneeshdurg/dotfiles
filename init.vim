@@ -48,6 +48,7 @@ set nohlsearch
 set number
 set textwidth=80
 set wildignorecase
+set autochdir
 
 " ___ _ __   __ _  ___(_)_ __   __ _
 "/ __| '_ \ / _` |/ __| | '_ \ / _` |
@@ -69,8 +70,10 @@ map <C-k> <C-y>
 " from a vim process. see .bashrc for an example of how this can be used to
 " avoid opening recursive instances of vim.
 let $NVIM_ACTIVE="true"
+let $NVIM_LISTEN_ADDRESS=v:servername
 
 autocmd BufNewFile,BufRead *.qs set syntax=cs
+autocmd BufNewFile,BufRead bash-fc.* set filetype=bashfc
 
 " Prevents start page from highlighting spaces in ascii art
 autocmd FileType startify DisableWhitespace
@@ -83,8 +86,18 @@ autocmd Filetype terminal set nonumber
 autocmd FileType * set colorcolumn=81
 autocmd FileType javascript set colorcolumn=121
 
-autocmd FileType gitcommit nnoremap q :bd<CR>
-autocmd FileType gitcommit nnoremap wq :w\|bd<CR>
+autocmd FileType tex set textwidth=0
+
+autocmd FileType gitcommit nnoremap :q<CR> :bd<CR>
+autocmd FileType gitcommit nnoremap :wq<CR> :w\|bd<CR>
+autocmd FileType gitcommit nnoremap q<CR> :bd<CR>
+autocmd FileType gitcommit nnoremap wq<CR> :w\|bd<CR>
+
+" Doesn't work atm
+autocmd FileType bashfc nnoremap :q<CR> :bd<CR>
+autocmd FileType bashfc nnoremap :wq<CR> :w\|bd<CR>
+autocmd FileType bashfc nnoremap q<CR> :bd<CR>
+autocmd FileType bashfc nnoremap wq<CR> :w\|bd<CR>
 
 " Double escape to return to normal mode in terminal
 tnoremap <Esc><Esc> <C-\><C-n>
@@ -96,6 +109,10 @@ tnoremap <Esc><Esc> <C-\><C-n>
 map <C-c><C-c> :let g:saved_bufnum=bufnr('%')<CR>
 map <C-c><C-x> :let g:saved_bufnum=bufnr('%') \| q <CR>
 map <C-c><C-p> :exe "b"g:saved_bufnum<CR>
+
+" Disabling for now
+nnoremap q<CR> :clo<CR>
+nnoremap wq<CR> :w\|clo<CR>
 
 function! ClangFormatDiff()
   let diff_result = system("diff <(clang-format ".bufname("%").") ".bufname("%"))
