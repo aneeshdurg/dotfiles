@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from sys import argv
 import pulsectl
 
@@ -22,5 +24,7 @@ with pulsectl.Pulse('volume-increaser') as pulse:
             if (offset > tol and offset < (0.05 - tol)):
                 pulse.volume_change_all_chans(sink, -1 * (vol  % 0.05))
             pulse.volume_change_all_chans(sink, increment)
+            if (sink.mute == 1):
+                pulse.mute(sink, mute=False)
         else:
             pulse.mute(sink, mute=sink.mute==0)
