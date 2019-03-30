@@ -20,6 +20,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'mhinz/vim-startify'
 Plug 'lambdalisue/suda.vim'
+Plug 'lepture/vim-jinja'
 " Initialize plugin system
 call plug#end()
 
@@ -111,8 +112,8 @@ map <C-c><C-x> :let g:saved_bufnum=bufnr('%') \| q <CR>
 map <C-c><C-p> :exe "b"g:saved_bufnum<CR>
 
 " Disabling for now
-nnoremap q<CR> :clo<CR>
-nnoremap wq<CR> :w\|clo<CR>
+nnoremap :q<CR> :clo<CR>
+nnoremap :wq<CR> :w\|clo<CR>
 
 function! ClangFormatDiff()
   let diff_result = system("diff <(clang-format ".bufname("%").") ".bufname("%"))

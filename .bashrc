@@ -75,7 +75,6 @@ fi
 # requires https://github.com/mhinz/neovim-remote
 # install using pip3 install neovim-remote
 getvim(){ [ -z "$NVIM_ACTIVE" ] && echo "nvim" || echo "nvr -cc vsp"; }
-alias vim='$(getvim)'
 
 if [ -z "$NVIM_LISTEN_ADDRESS" ]
 then
