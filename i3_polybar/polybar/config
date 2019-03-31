@@ -27,7 +27,7 @@ primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/example]
+[bar/primary]
 monitor = ${env:MONITOR}
 width = 100%
 height = 27
@@ -77,6 +77,10 @@ tray-padding = 2
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+[bar/mirrored]
+inherit = bar/primary
+modules-left = i3mirrored
 
 [module/xwindow]
 type = internal/xwindow
@@ -166,6 +170,10 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 ; Separator in between workspaces
 ; label-separator = |
+
+[module/i3mirrored]
+inherit = module/i3
+pin-workspaces = false
 
 
 [module/mpd]
