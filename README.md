@@ -12,3 +12,9 @@ for clipboard support with nvim:
 sudo apt install xclip
 
 old.tar.gz has files from back when I used to use windows.
+
+WM:
+
+i3-gaps: https://gist.github.com/boreycutts/6417980039760d9d9dac0dd2148d4783
++
+i3-gnome: https://github.com/csxr/i3-gnome
