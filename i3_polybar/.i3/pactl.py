@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" Volume control wrapper around pulsectl """
 
 from sys import argv
 import pulsectl

@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" Controls backlight """
 
 import subprocess
 import sys

@@ -181,8 +181,8 @@ set $wallpaper "/home/aneesh/Pictures/Wallpapers/1535939395676.png"
 exec_always --no-startup-id feh --no-fehbg --bg-scale $wallpaper
 
 # lockscreen
-exec --no-startup-id xautolock -time 5 -locker "gnome-screensaver-command -l"
-bindsym $mod+Escape exec --no-startup-id gnome-screensaver-command -l
+exec --no-startup-id xautolock -time 5 -locker "/home/aneesh/.i3/locker.py"
+bindsym $mod+Escape exec $HOME/.i3/locker.py
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec $HOME/.i3/pactl.py up

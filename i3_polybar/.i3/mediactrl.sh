@@ -1,3 +1,5 @@
+# Controls media messages
+
 option=""
 if [ "$1" == "play" ]
 then
