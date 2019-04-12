@@ -206,6 +206,7 @@ exec --no-startup-id dunst
 exec --no-startup-id $HOME/.i3/urgent_switch.py
 exec --no-startup-id $HOME/.i3/dunst_pause.py
 exec --no-startup-id /usr/bin/libinput-gestures
+exec_always --no-startup-id compton --config .config/compton/compton.conf -b
 bindsym $mod+Escape exec $HOME/.i3/locker.py
 
 # Pulse Audio controls
@@ -246,3 +247,5 @@ bindsym $mod+x [urgent=latest] focus
 
 bindsym $mod+p exec ~/.i3/dunst_pause.py --toggle
 bindsym $mod+shift+p exec notify-send hi
+
+bindsym Control+Mod1+Tab exec ~/.i3/window_launch.py

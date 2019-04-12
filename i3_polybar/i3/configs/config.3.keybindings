@@ -38,3 +38,5 @@ bindsym $mod+x [urgent=latest] focus
 
 bindsym $mod+p exec ~/.i3/dunst_pause.py --toggle
 bindsym $mod+shift+p exec notify-send hi
+
+bindsym Control+Mod1+Tab exec ~/.i3/window_launch.py
