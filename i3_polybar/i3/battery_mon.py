@@ -4,6 +4,7 @@ import re
 import subprocess
 
 from multiprocessing import Process
+from threading import Thread
 from time import sleep
 
 def monitor_battery():
@@ -54,18 +55,38 @@ def detect_status_change():
             subprocess.check_call([
                 "notify-send",
                 "ACPI_LISTEN PROCESS FAILED {}".format(exit_status)])
-            exit(1)
+            acpi_log = subprocess.Popen(["acpi_listen"], stdout=subprocess.PIPE)
         msg = l.decode().strip()
         if "ac_adapter" in msg:
-            status = int(msg.split()[-1])
-            batt_status = subprocess.check_output(
+            status = False
+            try:
+                status = bool(int(msg.split()[-1]))
+            except:
+                pass
+
+            level = "?"
+            try:
+                batt_status = subprocess.check_output(
                     ["acpi", "--battery"]).decode().strip()
-            level = int(re.split("(\d+)%", batt_status)[1])
+                level = int(re.split("(\d+)%", batt_status)[1])
+            except:
+                pass
             verb = "charging" if status else "discharging"
             subprocess.check_call([
                 "notify-send",
                 "Battery {}\nCurrently at {}%".format(verb, level)])
 
+def manage(fn):
+    proc = Process(target=fn)
+    proc.start()
+    while True:
+        proc.join()
+        proc = Process(target=fn)
+        proc.start()
+
 if __name__ == "__main__":
-    Process(target=detect_status_change).start()
-    monitor_battery()
+    status_thread = Thread(target=manage, args=(detect_status_change,))
+    mon_thread = Thread(target=manage, args=(monitor_battery,))
+
+    status_thread.start()
+    mon_thread.start()

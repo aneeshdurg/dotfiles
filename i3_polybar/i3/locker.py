@@ -23,7 +23,11 @@ def check_suspend():
             elif (active_for % 60) == 0 or\
                     (active_for - (active_for % 60)) > last_seen:
                 last_seen = active_for
-                subprocess.check_call("systemctl suspend".split())
+                charging = subprocess.check_output(
+                        ["acpi", "--battery"]).decode()
+                charging = "Charging" in charging
+                if not charging:
+                    subprocess.check_call("systemctl suspend".split())
             else:
                 last_seen = active_for
             sleep(5)
