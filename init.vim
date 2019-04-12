@@ -31,6 +31,7 @@ colorscheme molokai
 hi Normal guibg=None ctermbg=None
 hi LineNr guibg=NONE ctermbg=NONE guifg=white ctermfg=white
 hi Visual term=reverse cterm=reverse guibg=White
+hi ColorColumn ctermbg=Grey
 
 let g:ag_working_path_mode="r"
 let g:agprg="rg --vimgrep --smart-case --with-filename --no-heading"
