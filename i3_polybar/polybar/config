@@ -58,7 +58,7 @@ font-2 = siji:pixelsize=10;1
 
 modules-left = bspwm i3
 modules-center = mpd
-modules-right = xbacklight pulseaudio memory cpu wlan eth battery temperature popup-calendar
+modules-right = xbacklight pulseaudio memory cpu wlan eth battery temperature popup-calendar notification-state
 
 tray-position = right
 tray-padding = 2
@@ -423,6 +423,12 @@ type = custom/script
 exec = ~/.config/polybar/popup-calendar.py
 interval = 5
 click-left = ~/.config/polybar/popup-calendar.py --popup
+
+[module/notification-state]
+type = custom/script
+exec = ~/.i3/dunst_pause.py --query
+interval = 1
+click-left = ~/.i3/dunst_pause.py --toggle
 
 [settings]
 screenchange-reload = true

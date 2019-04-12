@@ -178,3 +178,7 @@ smart_borders on
 
 # Popup calendar
 for_window [class="Yad" title="yad-calendar"] floating enable
+for_window [urgent="latest"] focus
+for_window [class="Arandr"] floating enable
+
+focus_follows_mouse no

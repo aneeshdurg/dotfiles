@@ -18,3 +18,8 @@ exec_always --no-startup-id bash $HOME/.i3/launch_polybar.sh
 exec --no-startup-id xset r rate 300 35 # Set initial delay 300ms, repeat 35ms
 exec --no-startup-id nm-applet
 exec --no-startup-id dunst
+#exec --no-startup-id deadd-notification-center
+exec --no-startup-id $HOME/.i3/urgent_switch.py
+exec --no-startup-id $HOME/.i3/dunst_pause.py
+exec --no-startup-id /usr/bin/libinput-gestures
+exec_always --no-startup-id compton --config .config/compton/compton.conf -b
