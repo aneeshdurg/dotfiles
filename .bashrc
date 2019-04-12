@@ -50,6 +50,17 @@ bluetooth_hack() {
     done
 }
 
+latex_watch ()
+{
+    inotifywait -m -e modify -r . |
+      tee |
+      grep --color=auto --line-buffered 'MODIFY .*.tex' | {
+        while read line; do
+            timeout 2 make;
+        done
+    }
+}
+
 which fuck 2>&1 >/dev/null && eval $(thefuck --alias oops)
 
 #                  _                  _       _        _ _
