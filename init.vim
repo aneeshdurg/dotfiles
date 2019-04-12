@@ -28,6 +28,9 @@ call plug#end()
 let g:rehash256 = 1
 let g:molokai_original = 1
 colorscheme molokai
+hi Normal guibg=None ctermbg=None
+hi LineNr guibg=NONE ctermbg=NONE guifg=white ctermfg=white
+hi Visual term=reverse cterm=reverse guibg=White
 
 let g:ag_working_path_mode="r"
 let g:agprg="rg --vimgrep --smart-case --with-filename --no-heading"
