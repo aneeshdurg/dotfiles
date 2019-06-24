@@ -35,6 +35,13 @@ def pause_manager():
                 elif line == "query":
                     with open(output_state_pipe, 'w') as state_output:
                         state_output.write("{}\n".format(dunst_paused))
+def manage(fn):
+    proc = Process(target=fn)
+    proc.start()
+    while True:
+        proc.join()
+        proc = Process(target=fn)
+        proc.start()
 
 if __name__ == "__main__":
     def usage():
@@ -46,7 +53,7 @@ if __name__ == "__main__":
         usage()
 
     if "--start" in sys.argv:
-        pause_manager()
+        manage(pause_manager)
         exit(1)
 
     def alarm_handler(signum, frame):

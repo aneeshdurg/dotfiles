@@ -20,8 +20,8 @@ def check_suspend():
                 break
             if active_for == 0:
                 sleep(1)
-            elif (active_for % 60) == 0 or\
-                    (active_for - (active_for % 60)) > last_seen:
+            elif (active_for % 120) == 0 or\
+                    (active_for - (active_for % 120)) > last_seen:
                 last_seen = active_for
                 charging = subprocess.check_output(
                         ["acpi", "--battery"]).decode()

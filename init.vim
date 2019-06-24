@@ -10,20 +10,61 @@
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'tomasr/molokai'
 Plug 'altercation/vim-colors-solarized'
-Plug 'ntpeters/vim-better-whitespace'
 Plug 'cloudhead/neovim-fuzzy' " requires ag > 0.33.0 and fzy
 Plug 'FooSoft/vim-argwrap'
-Plug 'Numkil/ag.nvim' " requires ag
-Plug 'tpope/vim-dispatch'
-Plug 'radenling/vim-dispatch-neovim'
-Plug 'mhinz/vim-startify'
 Plug 'lambdalisue/suda.vim'
 Plug 'lepture/vim-jinja'
+Plug 'mhinz/vim-startify'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'Numkil/ag.nvim' " requires ag
+Plug 'radenling/vim-dispatch-neovim'
+Plug 'tomasr/molokai'
+Plug 'tpope/vim-dispatch'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'tpope/vim-sleuth'
 " Initialize plugin system
 call plug#end()
 
+"""
+"| |    __ _ _ __   __ _  __ _ _   _  __ _  __ _  ___
+"| |   / _` | '_ \ / _` |/ _` | | | |/ _` |/ _` |/ _ \
+"| |__| (_| | | | | (_| | (_| | |_| | (_| | (_| |  __/
+"|_____\__,_|_| |_|\__,_|\__, |\__,_|\__,_|\__, |\___|
+"                        |___/             |___/
+" ____                              ____             __ _
+"/ ___|  ___ _ ____   _____ _ __   / ___|___  _ __  / _(_) __ _
+"\___ \ / _ \ '__\ \ / / _ \ '__| | |   / _ \| '_ \| |_| |/ _` |
+" ___) |  __/ |   \ V /  __/ |    | |__| (_) | | | |  _| | (_| |
+"|____/ \___|_|    \_/ \___|_|     \____\___/|_| |_|_| |_|\__, |
+"                                                         |___/
+" FIGLET: language server config
+"""
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    \ 'python': ['/usr/local/bin/pyls'],
+    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+    \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#num_processes = 1
+let g:deoplete#auto_complete_start_length = 1
+"""
 
 let g:rehash256 = 1
 let g:molokai_original = 1
@@ -116,8 +157,8 @@ map <C-c><C-x> :let g:saved_bufnum=bufnr('%') \| q <CR>
 map <C-c><C-p> :exe "b"g:saved_bufnum<CR>
 
 " Disabling for now
-nnoremap :q<CR> :clo<CR>
-nnoremap :wq<CR> :w\|clo<CR>
+"nnoremap :q<CR> :clo<CR>
+"nnoremap :wq<CR> :w\|clo<CR>
 
 function! ClangFormatDiff()
   let diff_result = system("diff <(clang-format ".bufname("%").") ".bufname("%"))

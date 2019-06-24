@@ -7,12 +7,21 @@ from multiprocessing import Process
 from threading import Thread
 from time import sleep
 
+def get_battery_status():
+    try:
+        batt_output = subprocess.check_output(["acpi", "--battery"]).decode()
+        parts = filter(lambda k: 'unavailable' not in k, batt_output.split('\n'))
+        return list(parts)[0].strip()
+    except:
+        return ""
+
+
 def monitor_battery():
     suspended = False
     interval = 60
     warn_count = 10
     while True:
-        batt_status = subprocess.check_output(["acpi", "--battery"]).decode().strip()
+        batt_status = get_battery_status()
         charging = "Charging" in batt_status
         level = int(re.split("(\d+)%", batt_status)[1])
         if not charging:

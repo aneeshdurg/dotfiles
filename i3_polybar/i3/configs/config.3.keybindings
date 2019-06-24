@@ -8,6 +8,8 @@ bindsym XF86AudioMute exec $HOME/.i3/pactl.py mute
 # Media control
 set $mediactrl "$HOME/.i3/mediactrl.sh"
 # bindsym $mod+XF86AudioMute exec bash $mediactrl play
+bindsym XF86AudioMicMute exec amixer set Capture toggle
+
 bindsym XF86AudioPlay exec bash $mediactrl play
 bindsym XF86AudioPause exec bash $mediactrl play
 bindsym XF86AudioStop exec bash $mediactrl play

@@ -97,6 +97,7 @@ bindsym $mod+Shift+slash move scratchpad
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+slash scratchpad show
+bindsym $mod+Shift+s sticky toggle
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -183,7 +184,7 @@ for_window [class="Arandr"] floating enable
 
 focus_follows_mouse no
 # lockscreen
-exec --no-startup-id xautolock -time 5 -locker "/home/aneesh/.i3/locker.py"
+exec --no-startup-id xautolock -time 10 -locker "/home/aneesh/.i3/locker.py"
 exec --no-startup-id ~/.i3/battery_mon.py
 
 # wallpaper
@@ -217,6 +218,8 @@ bindsym XF86AudioMute exec $HOME/.i3/pactl.py mute
 # Media control
 set $mediactrl "$HOME/.i3/mediactrl.sh"
 # bindsym $mod+XF86AudioMute exec bash $mediactrl play
+bindsym XF86AudioMicMute exec amixer set Capture toggle
+
 bindsym XF86AudioPlay exec bash $mediactrl play
 bindsym XF86AudioPause exec bash $mediactrl play
 bindsym XF86AudioStop exec bash $mediactrl play
