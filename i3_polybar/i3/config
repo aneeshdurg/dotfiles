@@ -181,6 +181,7 @@ smart_borders on
 for_window [class="Yad" title="yad-calendar"] floating enable
 for_window [urgent="latest"] focus
 for_window [class="Arandr"] floating enable
+for_window [class="xpad"] floating enable
 
 focus_follows_mouse no
 # lockscreen
@@ -203,6 +204,7 @@ exec_always --no-startup-id bash $HOME/.i3/launch_polybar.sh
 exec --no-startup-id xset r rate 300 35 # Set initial delay 300ms, repeat 35ms
 exec --no-startup-id nm-applet
 exec --no-startup-id dunst
+
 #exec --no-startup-id deadd-notification-center
 exec --no-startup-id $HOME/.i3/urgent_switch.py
 exec --no-startup-id $HOME/.i3/dunst_pause.py

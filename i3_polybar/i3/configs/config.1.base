@@ -181,5 +181,6 @@ smart_borders on
 for_window [class="Yad" title="yad-calendar"] floating enable
 for_window [urgent="latest"] focus
 for_window [class="Arandr"] floating enable
+for_window [class="xpad"] floating enable
 
 focus_follows_mouse no

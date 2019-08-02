@@ -1,0 +1,9 @@
+
+[Desktop Entry]
+Type=Application
+Name=Osu!
+GenericName=Music Player
+Icon=/home/aneesh/.wine/drive_c/users/aneesh/AppData/Osulogo.png
+Exec=env "WINEARCH=win32" wine "/home/aneesh/.wine/drive_c/users/aneesh/Local Settings/Application Data/osu!/osu!.exe"
+Terminal=false
+Categories=Audio;Music;Games;Media
