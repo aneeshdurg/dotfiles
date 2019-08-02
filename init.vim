@@ -120,13 +120,12 @@ let $NVIM_LISTEN_ADDRESS=v:servername
 
 autocmd BufNewFile,BufRead *.qs set syntax=cs
 autocmd BufNewFile,BufRead bash-fc.* set filetype=bashfc
+autocmd TermOpen * set filetype=terminal
 
 " Prevents start page from highlighting spaces in ascii art
 autocmd FileType startify DisableWhitespace
 " Disables line nos only in terminal mode
-" Also provides a filetype for terminal
 autocmd FileType * set number
-autocmd TermOpen * set filetype=terminal
 autocmd Filetype terminal set nonumber
 " Different length limit for js
 autocmd FileType * set colorcolumn=81
@@ -134,16 +133,15 @@ autocmd FileType javascript set colorcolumn=121
 
 autocmd FileType tex set textwidth=0
 
-autocmd FileType gitcommit nnoremap :q<CR> :bd<CR>
-autocmd FileType gitcommit nnoremap :wq<CR> :w\|bd<CR>
-autocmd FileType gitcommit nnoremap q<CR> :bd<CR>
-autocmd FileType gitcommit nnoremap wq<CR> :w\|bd<CR>
+autocmd FileType gitcommit nnoremap <buffer> :q<CR> :bd<CR>
+autocmd FileType gitcommit nnoremap <buffer> :wq<CR> :w\|bd<CR>
+autocmd FileType gitcommit nnoremap <buffer> q<CR> :bd<CR>
+autocmd FileType gitcommit nnoremap <buffer> wq<CR> :w\|bd<CR>
 
-" Doesn't work atm
-autocmd FileType bashfc nnoremap :q<CR> :bd<CR>
-autocmd FileType bashfc nnoremap :wq<CR> :w\|bd<CR>
-autocmd FileType bashfc nnoremap q<CR> :bd<CR>
-autocmd FileType bashfc nnoremap wq<CR> :w\|bd<CR>
+autocmd FileType bashfc nnoremap <buffer> :q<CR> :bd<CR>
+autocmd FileType bashfc nnoremap <buffer> :wq<CR> :w\|bd<CR>
+autocmd FileType bashfc nnoremap <buffer> q<CR> :bd<CR>
+autocmd FileType bashfc nnoremap <buffer> wq<CR> :w\|bd<CR>
 
 " Double escape to return to normal mode in terminal
 tnoremap <Esc><Esc> <C-\><C-n>
@@ -159,6 +157,8 @@ map <C-c><C-p> :exe "b"g:saved_bufnum<CR>
 " Disabling for now
 "nnoremap :q<CR> :clo<CR>
 "nnoremap :wq<CR> :w\|clo<CR>
+
+nnoremap <silent> <esc> :noh<cr><esc>
 
 function! ClangFormatDiff()
   let diff_result = system("diff <(clang-format ".bufname("%").") ".bufname("%"))
@@ -191,9 +191,9 @@ endfunc
 map <C-c><C-m> :call ToggleMouse()<CR>
 
 
-map <C-w><C-m> :sp<CR> :wincmd T<CR>
+map <C-w><C-m> :tab split<CR>
 map <C-w><C-e> yy:new<CR>P:set filetype=scratchbuf<CR>
-autocmd FileType scratchbuf nnoremap <buffer> Q :%y<CR>:q!<CR>
+autocmd FileType scratchbuf nnoremap <buffer>:q :%y<CR>:q!<CR>
 
 nnoremap <C-p> :FuzzyOpen<CR>
 nnoremap <silent> <leader>a :ArgWrap<CR>
