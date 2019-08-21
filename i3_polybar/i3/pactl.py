@@ -24,11 +24,14 @@ with pulsectl.Pulse('volume-increaser') as pulse:
                 delta = 0
             elif vol <= 0 and increment < 0:
                 delta = 0
+
             offset = (vol  % 0.05)
             tol = 0.0001
             if (offset > tol and offset < (0.05 - tol)):
                 pulse.volume_change_all_chans(sink, -1 * (vol  % 0.05))
+
             pulse.volume_change_all_chans(sink, delta)
+
             if (sink.mute == 1):
                 pulse.mute(sink, mute=False)
 
