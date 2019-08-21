@@ -1,0 +1,6 @@
+{
+  "backlight_path": "/sys/devices/platform/thinkpad_acpi/leds/tpacpi::kbd_backlight/brightness",
+  "blink_count": 1,
+  "blink_duration": 0.5,
+  "user": "aneesh"
+}

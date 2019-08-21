@@ -1,0 +1,10 @@
+# /etc/systemd/system/thinkpad_backlight_notifications.service
+[Unit]
+Description=Flash Keyboard Backlight on Notification
+
+[Service]
+Type=simple
+ExecStart=/home/aneesh/dotfiles/notification_backlight/thinkpad_backlight_notifications.py
+
+[Install]
+WantedBy=multi-user.target
