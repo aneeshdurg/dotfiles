@@ -1,4 +1,4 @@
-#!/usr/bin/python2 -u
+#!/usr/bin/python3 -u
 # Needs to run with unbuffered python
 
 """
@@ -12,7 +12,6 @@ Usage:
 """
 
 
-import glib
 import dbus
 import json
 import subprocess
@@ -20,6 +19,8 @@ import sys
 
 from dbus.mainloop.glib import DBusGMainLoop
 from enum import Enum
+from gi.repository import GLib as glib
+from signal import SIGINT, signal
 from time import sleep
 
 config = None
@@ -53,9 +54,9 @@ def notifications(bus, message):
     setBrightness(KBDBacklightState.LOW)
 
     for i in range(config['blink_count']):
-        setBrightness(KBDBacklightState.LOW)
-        sleep(config['blink_duration'])
         setBrightness(KBDBacklightState.HIGH)
+        sleep(config['blink_duration'])
+        setBrightness(KBDBacklightState.LOW)
 
     setBrightness(orig)
 
@@ -79,7 +80,13 @@ if __name__ == "__main__":
 
     else:
         # Open the backlight unbuffered
-        with open(config['backlight_path'], 'w', 0) as f:
+        proc = None
+        def sigint_handler(*args):
+            if proc:
+                proc.kill()
+
+        signal(SIGINT, sigint_handler)
+        with open(config['backlight_path'], 'wb', 0) as f:
             # Launch the script with the --run option as the user we want to
             # listen to
             # The script will be launched with stdout set to the backlight
