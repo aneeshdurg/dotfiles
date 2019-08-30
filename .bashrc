@@ -2,7 +2,7 @@
 set -o vi
 
 # Setting env var so that vim config will behave differently
-export QUMULO = 'true'
+export QUMULO='true'
 
 # Commonly used colors for use inside echo statements
 export ANSI_BLUE="\033[0;34m"

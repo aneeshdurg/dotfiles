@@ -26,6 +26,7 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'do': 'bash install.sh',
     \ }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete-terminal'
 Plug 'zchee/deoplete-clang'
 " Plug 'tpope/vim-sleuth'
 " Initialize plugin system
