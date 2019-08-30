@@ -1,3 +1,11 @@
+# A fish prompt that look suspiciously like the bash prompt
+function fish_prompt
+    echo -n (set_color --bold afff00)"$USER""@"(hostname)
+    echo -n (set_color normal):
+    echo -n (set_color --bold 8787d7)(prompt_pwd)
+    echo -n (set_color normal)"\$ "
+end
+
 # vi editing mode for maximum productivity
 fish_vi_key_bindings
 
@@ -73,14 +81,6 @@ end
 # Most noteably is the getvim function which returns "nvim" if it's not in a
 # subshell and "nvr -cc vsp" otherwise.
 
-# Visual indicator that I'm in a neovim subshell
-if [ ! -z "$NVIM_ACTIVE" ]
-    echo -e "$ANSI_GREEN"
-    figlet -f small "NVIM SUBSHELL"
-    echo -e "$ANSI_NC"
-
-end
-
 # requires https://github.com/mhinz/neovim-remote
 # install using pip3 install neovim-remote
 function getvim --description "return appropriate vim"
@@ -105,27 +105,33 @@ set -x HGEDITOR $EDITOR
 # vim short cuts
 alias vim='eval (getvim)'
 
-# Print out a random quote before yielding to the user
-~/dotfiles/.quotes.py
+function fish_greeting
+    # Print out a random quote before yielding to the user
+    ~/dotfiles/.quotes.py
 
-function tmux_status -d "Print running tmux sessions"
-    echo -ne "Running tmux sessions: \n\t\033[1;32m"
-    tmux ls
-    echo -ne "\033[0m"
+    # Visual indicator that I'm in a neovim subshell
+    if [ ! -z "$NVIM_ACTIVE" ]
+        echo -e "$ANSI_GREEN"
+        figlet -f small "NVIM SUBSHELL"
+        echo -e "$ANSI_NC"
+    end
+
+    function tmux_status -d "Print running tmux sessions"
+        echo -ne "Running tmux sessions: \n\t\033[1;32m"
+        tmux ls
+        echo -ne "\033[0m"
+    end
+    tmux ls 2>/dev/null >/dev/null; and tmux_status
+
+    set VIM_SESSIONS (ls ~ | grep "\.*vim\$" | tr ' ' '\n')
+    if [ "$VIM_SESSIONS" != "" ]
+      echo -ne "Saved vim sessions: \n\033[1;32m"
+      ls ~ | grep "\.*vim\$" | sed 's/^/\t/'
+      echo -ne "\033[0m"
+    end
+
+    cat ~/.messages 2>/dev/null
 end
-tmux ls 2>/dev/null >/dev/null; and tmux_status
 
-set VIM_SESSIONS (ls ~ | grep "\.*vim\$" | tr ' ' '\n')
-if [ "$VIM_SESSIONS" != "" ]
-  echo -ne "Saved vim sessions: \n\033[1;32m"
-  ls ~ | grep "\.*vim\$" | sed 's/^/\t/'
-  echo -ne "\033[0m"
-end
-
-
-#TMUX_PROG='nvim -c "terminal"'
-#[ "$TMUX" != "" ] && [ "$NVIM_ACTIVE" == "" ] && exec $TMUX_PROG
 # bind '"\e[1;5D" backward-word'
 # bind '"\e[1;5C" forward-word'
-
-cat ~/.messages 2>/dev/null
