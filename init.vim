@@ -108,10 +108,12 @@ set autochdir
 "    |_|                       |___/
 " FIGLET: spacing
 "
+set tabstop=4 shiftwidth=4 textwidth=80
+
 set expandtab
 setlocal cindent tabstop=4 shiftwidth=4 textwidth=80
 setlocal cinoptions=:0,l1,t0,(4,u0,Ws
-setlocal formatoptions=croql 
+setlocal formatoptions=croql
 setlocal comments=sr:/*,mb:*,el:*/,://
 
 " Scroll up/down
@@ -126,6 +128,7 @@ let $NVIM_LISTEN_ADDRESS=v:servername
 
 autocmd BufNewFile,BufRead *.qs set syntax=cs
 autocmd BufNewFile,BufRead bash-fc* set filetype=bashfc
+autocmd BufNewFile,BufRead tmp.*.fish set filetype=fishfc
 autocmd TermOpen * set filetype=terminal
 
 " Prevents start page from highlighting spaces in ascii art
@@ -154,6 +157,10 @@ autocmd FileType bashfc nnoremap <buffer> :wq<CR> :w\|bd<CR>
 autocmd FileType bashfc nnoremap <buffer> q<CR> :bd<CR>
 autocmd FileType bashfc nnoremap <buffer> wq<CR> :w\|bd<CR>
 
+autocmd FileType fishfc nnoremap <buffer> :q<CR> :bd<CR>
+autocmd FileType fishfc nnoremap <buffer> :wq<CR> :w\|bd<CR>
+autocmd FileType fishfc nnoremap <buffer> q<CR> :bd<CR>
+autocmd FileType fishfc nnoremap <buffer> wq<CR> :w\|bd<CR>
 " Double escape to return to normal mode in terminal
 tnoremap <Esc><Esc> <C-\><C-n>
 
