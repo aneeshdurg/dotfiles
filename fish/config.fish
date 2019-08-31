@@ -1,15 +1,23 @@
 # A fish prompt that look suspiciously like the bash prompt
 function fish_prompt
-    echo -n (set_color --bold 9eef00)"$USER""@"(hostname)
-    echo -n (set_color normal):
-    echo -n (set_color --bold 5fafd7)(prompt_pwd)
-    echo -n (set_color normal)"\$ "
+  echo -n (set_color --bold 9eef00)"$USER""@"(hostname)
+  echo -n (set_color normal):
+  echo -n (set_color --bold 5fafd7)(prompt_pwd)
+  echo -n (set_color normal)
+
+  if [ (id -u) -eq 0 ]
+    echo -n "#"
+  else
+    echo -n "\$"
+  end
+
+  echo -n " "
 end
 
 # vi editing mode for maximum productivity
 fish_vi_key_bindings
-
-set -x QUMULO 'true'
+# bind '"\e[1;5D" backward-word'
+# bind '"\e[1;5C" forward-word'
 
 # redshift shortcuts
 alias rsx='redshift -x'
@@ -53,59 +61,58 @@ end
 # requires https://github.com/mhinz/neovim-remote
 # install using pip3 install neovim-remote
 function getvim --description "return appropriate vim"
-    if [ "$NVIM_ACTIVE" = "" ]
-       echo "nvim"
-    else
-       echo "nvr -cc vsp"
-    end
+  if [ "$NVIM_ACTIVE" = "" ]
+     echo "nvim"
+  else
+     echo "nvr -cc vsp"
+  end
 end
 
 function nvim_header
-    # Visual indicator that I'm in a neovim subshell
-    if [ ! -z "$NVIM_ACTIVE" ]
-        set_color green
-        figlet -f small "NVIM SUBSHELL"
-        set_color normal
-    end
+  # Visual indicator that I'm in a neovim subshell
+  if [ ! -z "$NVIM_ACTIVE" ]
+    set_color green
+    figlet -f small "NVIM SUBSHELL"
+    set_color normal
+  end
 end
 
 if [ -z "$NVIM_LISTEN_ADDRESS" ]
-    set -x NVIM_LISTEN_ADDRESS /tmp/nvimsocket
+  set -x NVIM_LISTEN_ADDRESS /tmp/nvimsocket
 end
 
 set -x EDITOR (getvim)
 if [ ! -z "$NVIM_ACTIVE" ]
-    set -x EDITOR "$EDITOR --remote-wait"
-    set -x HGEDITOR "/bin/hgeditor.sh"
+  set -x EDITOR "$EDITOR --remote-wait"
+  set -x HGEDITOR "/bin/hgeditor.sh"
 end
 
 # vim short cuts
 alias vim='eval (getvim)'
 
 function tmux_status -d "Print running tmux sessions"
-        echo -ne "Running tmux sessions: \n\t\033[1;32m"
-tmux ls
-echo -ne "\033[0m"
+  echo -ne "Running tmux sessions: \n\t\033[1;32m"
+  tmux ls
+  echo -ne "\033[0m"
 end
 
 function fish_greeting
-    # Print out a random quote before yielding to the user
-    ~/dotfiles/.quotes.py
+  # Print out a random quote before yielding to the user
+  ~/dotfiles/.quotes.py
 
-    nvim_header
-    tmux ls 2>/dev/null >/dev/null; and tmux_status
+  nvim_header
+  tmux ls 2>/dev/null >/dev/null; and tmux_status
 
-    set VIM_SESSIONS (ls ~ | grep "\.*vim\$" | tr ' ' '\n')
-    if [ "$VIM_SESSIONS" != "" ]
-      echo -ne "Saved vim sessions: \n\033[1;32m"
-      ls ~ | grep "\.*vim\$" | sed 's/^/\t/'
-      echo -ne "\033[0m"
-    end
+  set VIM_SESSIONS (ls ~ | grep "\.*vim\$" | tr ' ' '\n')
+  if [ "$VIM_SESSIONS" != "" ]
+    echo -ne "Saved vim sessions: \n\033[1;32m"
+    ls ~ | grep "\.*vim\$" | sed 's/^/\t/'
+    echo -ne "\033[0m"
+  end
 
-    cat ~/.messages 2>/dev/null
+  cat ~/.messages 2>/dev/null
 end
 
 # Source qumulo specific aliases/functions/etc
-source ~/dotfiles/qrc.fish
-# bind '"\e[1;5D" backward-word'
-# bind '"\e[1;5C" forward-word'
+set -x QUMULO 'true'
+source ~/dotfiles/fish/qrc.fish
