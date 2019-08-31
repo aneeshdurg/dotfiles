@@ -66,9 +66,6 @@ let g:LanguageClient_serverCommands = {
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#num_processes = 1
 let g:deoplete#auto_complete_start_length = 1
-
-let g:deoplete#sources#clang#libclang_path = "/opt/qumulo/env/201908281134/lib/libclang.so"
-let g:deoplete#sources#clang#clang_header = "/opt/qumulo/env/201908281134/lib/clang/"
 """
 
 let g:rehash256 = 1

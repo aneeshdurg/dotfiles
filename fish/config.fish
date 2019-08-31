@@ -112,7 +112,3 @@ function fish_greeting
 
   cat ~/.messages 2>/dev/null
 end
-
-# Source qumulo specific aliases/functions/etc
-set -x QUMULO 'true'
-source ~/dotfiles/fish/qrc.fish

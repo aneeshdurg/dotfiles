@@ -39,7 +39,6 @@ alias wu-tang='~/dotfiles/wu-tang.sh'
 # Environment variables for go projects
 export GOPATH=/usr/share/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-export PATH=/opt/qumulo/toolchain/bin:$PATH
 
 # Z is useful for jumping around directories
 source ~/dotfiles/z/z.sh
