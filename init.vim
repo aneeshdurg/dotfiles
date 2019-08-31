@@ -26,6 +26,8 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'do': 'bash install.sh',
     \ }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete-terminal'
+Plug 'zchee/deoplete-clang'
 " Plug 'tpope/vim-sleuth'
 " Initialize plugin system
 call plug#end()
@@ -55,15 +57,18 @@ let g:LanguageClient_serverCommands = {
     \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
     \ }
 
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" Or map each action separately
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+" nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" " Or map each action separately
+" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#num_processes = 1
 let g:deoplete#auto_complete_start_length = 1
+
+let g:deoplete#sources#clang#libclang_path = "/opt/qumulo/env/201908281134/lib/libclang.so"
+let g:deoplete#sources#clang#clang_header = "/opt/qumulo/env/201908281134/lib/clang/"
 """
 
 let g:rehash256 = 1
@@ -104,9 +109,14 @@ set autochdir
 " FIGLET: spacing
 "
 set expandtab
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+
+" setlocal cindent
+" setlocal cinoptions=:0,l1,t0,(4,u0,Ws
+" setlocal formatoptions=croql
+" setlocal comments=sr:/*,mb:*,el:*/,://
 
 " Scroll up/down
 map <C-j> <C-e>
@@ -119,7 +129,12 @@ let $NVIM_ACTIVE="true"
 let $NVIM_LISTEN_ADDRESS=v:servername
 
 autocmd BufNewFile,BufRead *.qs set syntax=cs
-autocmd BufNewFile,BufRead bash-fc.* set filetype=bashfc
+autocmd BufNewFile,BufRead *.fish set syntax=sh
+
+autocmd BufNewFile,BufRead bash-fc* set filetype=bashfc
+autocmd BufNewFile,BufRead *tmp.*.fish set filetype=bashfc
+autocmd BufNewFile,BufRead tmp.*.fish set filetype=bashfc
+
 autocmd TermOpen * set filetype=terminal
 
 " Prevents start page from highlighting spaces in ascii art
@@ -132,6 +147,11 @@ autocmd FileType * set colorcolumn=81
 autocmd FileType javascript set colorcolumn=121
 
 autocmd FileType tex set textwidth=0
+
+autocmd FileType hgcommit nnoremap <buffer> :q<CR> :bd<CR>
+autocmd FileType hgcommit nnoremap <buffer> :wq<CR> :w\|bd<CR>
+autocmd FileType hgcommit nnoremap <buffer> q<CR> :bd<CR>
+autocmd FileType hgcommit nnoremap <buffer> wq<CR> :w\|bd<CR>
 
 autocmd FileType gitcommit nnoremap <buffer> :q<CR> :bd<CR>
 autocmd FileType gitcommit nnoremap <buffer> :wq<CR> :w\|bd<CR>

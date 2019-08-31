@@ -1,6 +1,9 @@
 # vi editing mode for maximum productivity
 set -o vi
 
+# Setting env var so that vim config will behave differently
+export QUMULO='true'
+
 # Commonly used colors for use inside echo statements
 export ANSI_BLUE="\033[0;34m"
 export ANSI_YELLOW="\033[0;33m"
@@ -36,6 +39,7 @@ alias wu-tang='~/dotfiles/wu-tang.sh'
 # Environment variables for go projects
 export GOPATH=/usr/share/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+export PATH=/opt/qumulo/toolchain/bin:$PATH
 
 # Z is useful for jumping around directories
 source ~/dotfiles/z/z.sh
@@ -92,11 +96,13 @@ then
     export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 fi
 export EDITOR="$(getvim)"
+export HGEDITOR=$EDITOR
+
 if [ ! -z "$NVIM_ACTIVE" ]
 then
     export EDITOR="$EDITOR --remote-wait"
+    export HGEDITOR="/bin/hgeditor.sh"
 fi
-export HGEDITOR=$EDITOR
 
 # vim short cuts
 alias vim='$(getvim)'
