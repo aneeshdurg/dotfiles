@@ -28,6 +28,7 @@ Plug 'autozimu/LanguageClient-neovim', {
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete-terminal'
 Plug 'zchee/deoplete-clang'
+Plug 'deoplete-plugins/deoplete-tag'
 " Plug 'tpope/vim-sleuth'
 " Initialize plugin system
 call plug#end()
@@ -49,13 +50,15 @@ call plug#end()
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['/usr/local/bin/pyls'],
-    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
-    \ }
+" let g:LanguageClient_serverCommands = {
+"     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+"     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+"     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+"     \ 'python': ['/usr/local/bin/pyls'],
+"     \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+"     \ 'c': ['clangd']
+"     \ }
+" let g:LanguageClient_autoStart = 1
 
 " nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 " " Or map each action separately
@@ -67,8 +70,16 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#num_processes = 1
 let g:deoplete#auto_complete_start_length = 1
 
-let g:deoplete#sources#clang#libclang_path = "/opt/qumulo/env/201908281134/lib/libclang.so"
-let g:deoplete#sources#clang#clang_header = "/opt/qumulo/env/201908281134/lib/clang/"
+" Assuming the environment variable QENV is set to the current env
+if !exists($QENV)
+    let g:deoplete#sources#clang#libclang_path = "/opt/qumulo/env/".$QENV."/lib/libclang.so"
+    let g:deoplete#sources#clang#clang_header = "/opt/qumulo/env/".$QENV."/lib/clang/"
+else
+    let g:deoplete#sources#clang#libclang_path = "/opt/qumulo/env/201910161149/lib/libclang.so"
+    let g:deoplete#sources#clang#clang_header = "/opt/qumulo/env/201910161149/lib/clang/"
+endif
+
+let deoplete#tag#cache_limit_size = 5000000
 """
 
 let g:rehash256 = 1
@@ -108,10 +119,19 @@ set autochdir
 "    |_|                       |___/
 " FIGLET: spacing
 "
+" autocmd Filetype c setlocal expandtab
+" autocmd Filetype c setlocal tabstop=4
+" autocmd Filetype c setlocal shiftwidth=4
+" autocmd Filetype c setlocal softtabstop=4
+" autocmd Filetype cpp setlocal expandtab
+" autocmd Filetype cpp setlocal tabstop=4
+" autocmd Filetype cpp setlocal shiftwidth=4
+" autocmd Filetype cpp setlocal softtabstop=4
+
 set expandtab
-set tabstop=4
 set shiftwidth=4
 set softtabstop=4
+set tabstop=4
 
 " setlocal cindent
 " setlocal cinoptions=:0,l1,t0,(4,u0,Ws
@@ -127,6 +147,8 @@ map <C-k> <C-y>
 " avoid opening recursive instances of vim.
 let $NVIM_ACTIVE="true"
 let $NVIM_LISTEN_ADDRESS=v:servername
+
+autocmd BufNewFile,BufRead *.tsx set filetype=javascript
 
 autocmd BufNewFile,BufRead *.qs set syntax=cs
 autocmd BufNewFile,BufRead *.fish set syntax=sh
@@ -145,6 +167,7 @@ autocmd Filetype terminal set nonumber
 " Different length limit for js
 autocmd FileType * set colorcolumn=81
 autocmd FileType javascript set colorcolumn=121
+
 
 autocmd FileType tex set textwidth=0
 
@@ -216,6 +239,8 @@ map <C-w><C-e> yy:new<CR>P:set filetype=scratchbuf<CR>
 autocmd FileType scratchbuf nnoremap <buffer>:q :%y<CR>:q!<CR>
 
 nnoremap <C-p> :FuzzyOpen<CR>
+nnoremap <C-p><C-p> :FuzzyOpen<CR>
+nnoremap <C-p><C-g> :cd ~/src<CR>:FuzzyGrep<CR>
 nnoremap <silent> <leader>a :ArgWrap<CR>
 
 " Autocomplete parens. Disabled because I don't like how it can't detect when
@@ -230,6 +255,12 @@ nnoremap <silent> <leader>a :ArgWrap<CR>
 if filereadable("/home/adurg/src/tools/editors/vim/plugin/figlet.vim")
     source /home/adurg/src/tools/editors/vim/plugin/figlet.vim
 endif
+
+" TODO check current path
+nnoremap cf :cd ~/src<CR>:cf ~/src/build/log<CR>
+nnoremap gf :cd ~/src<CR>gf
+nnoremap <C-w>f :vs<CR>:cd ~/src<CR>gf
+nnoremap <C-w>gf :tabnew<CR>:cd ~/src<CR>gf
 
 function! DeleteHiddenBuffers()
     let tpbl=[]

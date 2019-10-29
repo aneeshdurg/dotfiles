@@ -32,6 +32,8 @@ alias create-react-native='/usr/bin/nodejs8/bin/create-react-native'
 # Alias for the wu-tan name generator - didn't think this needed to be in PATH
 alias wu-tang='~/dotfiles/wu-tang.sh'
 
+alias t='tmux attach; or tmux'
+
 # Environment variables for go projects
 set -x GOPATH /usr/share/go
 set -gx PATH $PATH "$GOROOT"/bin "$GOPATH"/bin ^/dev/null
@@ -113,6 +115,63 @@ function fish_greeting
   cat ~/.messages 2>/dev/null
 end
 
+# if [ "$NVIM_ACTIVE" != "" ]
+#   function ag -d "Alias for ag"
+#     command ag $argv
+#       nvr -c 'let @/="'$argv[-1]'"'
+#   end
+# end
+
+function files
+  nautilus $argv 2>/dev/null >/dev/null &
+end
+
+function cd --description 'Change directory'
+    set -l MAX_DIR_HIST 25
+
+    if test (count $argv) -gt 1
+        printf "%s\n" (_ "Too many args for cd command")
+        return 1
+    end
+
+    # Skip history in subshells.
+    if status --is-command-substitution
+        builtin cd $argv
+        return $status
+    end
+
+    # Avoid set completions.
+    set -l previous $PWD
+
+    if test "$argv" = "-"
+        prevd
+        return $status
+    end
+
+    if test "$argv" = "+"
+        nextd
+        return $status
+    end
+
+    builtin cd $argv
+    set -l cd_status $status
+
+    if test $cd_status -eq 0 -a "$PWD" != "$previous"
+        set -q dirprev
+        or set -l dirprev
+        set -q dirprev[$MAX_DIR_HIST]
+        and set -e dirprev[1]
+        set -g dirprev $dirprev $previous
+        set -e dirnext
+        set -g __fish_cd_direction prev
+    end
+
+    return $cd_status
+end
+
+
 # Source qumulo specific aliases/functions/etc
 set -x QUMULO 'true'
+
+set -x QENV (ls /opt/qumulo/env | tail -1)
 source ~/dotfiles/fish/qrc.fish
