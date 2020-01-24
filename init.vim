@@ -102,6 +102,7 @@ let g:startify_custom_header =
 "                          |___/
 " FIGLET: settings
 "
+set autochdir
 set colorcolumn=81
 set dictionary=/usr/share/dict/words
 set makeprg=build
@@ -110,7 +111,7 @@ set nohlsearch
 set number
 set textwidth=80
 set wildignorecase
-set autochdir
+set wildmode=longest,full
 
 " ___ _ __   __ _  ___(_)_ __   __ _
 "/ __| '_ \ / _` |/ __| | '_ \ / _` |
@@ -185,6 +186,8 @@ autocmd FileType bashfc nnoremap <buffer> :q<CR> :bd<CR>
 autocmd FileType bashfc nnoremap <buffer> :wq<CR> :w\|bd<CR>
 autocmd FileType bashfc nnoremap <buffer> q<CR> :bd<CR>
 autocmd FileType bashfc nnoremap <buffer> wq<CR> :w\|bd<CR>
+
+autocmd FileType terminal set bufhidden=delete
 
 " Double escape to return to normal mode in terminal
 tnoremap <Esc><Esc> <C-\><C-n>

@@ -1,8 +1,8 @@
 # A fish prompt that look suspiciously like the bash prompt
 function fish_prompt
-  echo -n (set_color --bold 9eef00)"$USER""@"(hostname)
+  echo -n (set_color --bold green)"$USER""@"(hostname)
   echo -n (set_color normal):
-  echo -n (set_color --bold 5fafd7)(prompt_pwd)
+  echo -n (set_color --bold blue)(prompt_pwd)
   echo -n (set_color normal)
 
   if [ (id -u) -eq 0 ]
