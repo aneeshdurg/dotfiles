@@ -4,22 +4,25 @@
 import subprocess
 import sys
 
-curr = int(
-    round(
-        float(subprocess.check_output("xbacklight -get".split()).decode())))
+BL_PATH = "/sys/class/backlight/intel_backlight/brightness"
+MAX_BL_PATH = "/sys/class/backlight/intel_backlight/max_brightness"
+
+with open(BL_PATH) as f:
+    curr = int(f.read())
+with open(MAX_BL_PATH) as f:
+    max_brightness = int(f.read())
+
+step = 1000
 
 inc = 0
 if sys.argv[1] == "inc":
-    inc = 5
+    inc = step
 elif sys.argv[1] == "dec":
-    inc = -5
+    inc = -step
 
 if inc:
-    if curr >= 100 and inc > 0:
-        exit(1)
-    elif curr <= 0 and inc< 0:
-        exit(1)
-
-    curr -= curr % 5
+    curr -= curr % step
     curr += inc
-    subprocess.check_call("xbacklight -set {}".format(curr).split())
+    curr = max(min(curr, max_brightness), 0)
+    with open(BL_PATH, 'w') as f:
+        f.write(str(curr))

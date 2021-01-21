@@ -36,7 +36,7 @@ set $right l
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvt
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -182,5 +182,13 @@ for_window [class="Yad" title="yad-calendar"] floating enable
 for_window [urgent="latest"] focus
 for_window [class="Arandr"] floating enable
 for_window [class="xpad"] floating enable
+
+# special floating terminal
+for_window [class="gterm-floating"] floating enable
+
+# zoom default window is floating
+for_window[title="Zoom - Licensed Account"] floating enable
+for_window[title="zoom"] floating enable
+for_window[title="Chat"] floating enable
 
 focus_follows_mouse no

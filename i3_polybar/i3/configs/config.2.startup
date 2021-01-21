@@ -1,9 +1,15 @@
+exec --no-startup-id lxpolkit
+
+# set tap to click
+exec_always ~/.i3/set_touchpad.py
+
 # lockscreen
+exec --no-startup-id gnome-screensaver
 exec --no-startup-id xautolock -time 10 -locker "/home/aneesh/.i3/locker.py"
 exec --no-startup-id ~/.i3/battery_mon.py
 
 # wallpaper
-set $wallpaper "/home/aneesh/Pictures/Wallpapers/1535939395676.png"
+set $wallpaper "/home/aneesh/Pictures/Wallpapers/M101HST-GendlerM.jpg"
 exec_always --no-startup-id feh --no-fehbg --bg-scale $wallpaper
 
 exec_always --no-startup-id bash $HOME/.i3/launch_polybar.sh
@@ -15,12 +21,11 @@ exec_always --no-startup-id bash $HOME/.i3/launch_polybar.sh
 # }
 
 # misc
-exec --no-startup-id xset r rate 300 35 # Set initial delay 300ms, repeat 35ms
 exec --no-startup-id nm-applet
 exec --no-startup-id dunst
 
 #exec --no-startup-id deadd-notification-center
 exec --no-startup-id $HOME/.i3/urgent_switch.py
-exec --no-startup-id $HOME/.i3/dunst_pause.py
+exec --no-startup-id $HOME/.i3/dunst_pause.py --start
 exec --no-startup-id /usr/bin/libinput-gestures
-exec_always --no-startup-id compton --config .config/compton/compton.conf -b
+exec --no-startup-id compton --config .config/compton/compton.conf -b

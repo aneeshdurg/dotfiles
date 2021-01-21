@@ -47,6 +47,9 @@ function oops -d "Correct your previous console command"
   end
 end
 
+set -x GEM_HOME "$HOME/gems"
+set -gx PATH $PATH "$HOME/gems/bin"
+
 #                  _                  _       _        _ _
 # _ _  ___ _____ _(_)_ __ ___ ____  _| |__ __| |_  ___| | |
 #| ' \/ -_) _ \ V / | '  \___(_-< || | '_ (_-< ' \/ -_) | |
@@ -88,7 +91,12 @@ if [ ! -z "$NVIM_ACTIVE" ]
 end
 
 # vim short cuts
-alias vim='eval (getvim)'
+function vim
+    eval (getvim) $argv
+end
+complete -e -c vim
+complete -F -c vim
+
 
 function tmux_status -d "Print running tmux sessions"
   echo -ne "Running tmux sessions: \n\t\033[1;32m"
@@ -112,3 +120,15 @@ function fish_greeting
 
   cat ~/.messages 2>/dev/null
 end
+
+function lszwin
+    for pid in (xdotool search --class zoom)
+        echo -n "$pid "
+        xdotool getwindowname $pid
+    end
+end
+
+
+set -gx PATH /usr/local/bin/gradle $PATH
+
+source ~/.cargo/env

@@ -33,12 +33,18 @@ bindsym $mod+Shift+d exec --no-startup-id rofi -show-icons -show run
 bindsym $mod+space exec --no-startup-id rofi -show-icons -show window
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-bindsym $mod+Tab move workspace to output right
-bindsym $mod+Shift+Tab move workspace to output left
+bindsym $mod+Tab move workspace to output up
+bindsym $mod+Shift+Tab move workspace to output down
 
 bindsym $mod+x [urgent=latest] focus
 
-bindsym $mod+p exec ~/.i3/dunst_pause.py --toggle
-bindsym $mod+shift+p exec notify-send hi
+bindsym $mod+p exec gnome-screenshot -i
+
+# bindsym $mod+p exec ~/.i3/dunst_pause.py --toggle
+bindsym $mod+shift+p exec bash -c "notify-send 'The time is $(date)'"
 
 bindsym Control+Mod1+Tab exec ~/.i3/window_launch.py
+
+bindsym Control+Up exec --no-startup-id rofi -show-icons -show window
+bindsym Control+Left exec ~/.i3/ws_switcher.sh prev
+bindsym Control+Right exec ~/.i3/ws_switcher.sh next

@@ -57,8 +57,7 @@ font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
 
 modules-left = bspwm i3
-modules-center = mpd
-modules-right = xbacklight pulseaudio memory cpu wlan eth battery temperature popup-calendar notification-state
+modules-right = backlight-acpi pulseaudio temperature battery notification-state vpn-state popup-calendar
 
 tray-position = right
 tray-padding = 2
@@ -210,6 +209,7 @@ bar-empty-foreground = ${colors.foreground-alt}
 inherit = module/xbacklight
 type = internal/backlight
 card = intel_backlight
+enable-scroll = true
 
 [module/cpu]
 type = internal/cpu
@@ -369,6 +369,8 @@ animation-discharging-2 = 
 animation-discharging-foreground = ${colors.foreground-alt}
 animation-discharging-framerate = 750
 
+click-left = ~/.config/polybar/battery.sh
+
 [module/temperature]
 type = internal/temperature
 thermal-zone = 0
@@ -427,8 +429,14 @@ click-left = ~/.config/polybar/popup-calendar.py --popup
 [module/notification-state]
 type = custom/script
 exec = ~/.i3/dunst_pause.py --query
-interval = 1
+interval = 10
 click-left = ~/.i3/dunst_pause.py --toggle
+
+[module/vpn-state]
+type = custom/script
+exec = ~/vpn/vpn_status.sh
+interval = 5
+click-left = ~/vpn/vpn_status.sh toggle
 
 [settings]
 screenchange-reload = true
