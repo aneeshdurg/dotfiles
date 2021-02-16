@@ -1,6 +1,9 @@
 # vim: set syntax=python
 # pip install prompt-toolkit first!
 
+import xonsh.jobs
+import builtins
+
 import json
 
 from math import *
@@ -28,7 +31,7 @@ abbrevs['rson']='redshift -O 3500'
 abbrevs['view']='nvim -R'
 aliases['cat'] = 'batcat'
 
-$GEM_HOME = "$HOME/gems"
+$GEM_HOME = f"{$HOME}/gems"
 $PATH.append("$HOME/gems/bin")
 
 def getvim():
@@ -73,3 +76,40 @@ def _z(args=[]):
     else:
         return orig_z([""])
 aliases['z'] = _z
+
+def _disown(args, stdin=None):
+    """xonsh command: disown
+    Remove background jobs from xonsh shell handling so that they will continue
+    running after the shell exits.
+    an arbitrary number of jobIDs may be specified as arguments. If no
+    arguments are specified, all jobs will be disowned.
+    """
+
+    if len(xonsh.jobs.tasks) == 0:
+        return "", "There are no active jobs"
+
+    if len(args) > 0:
+        try:
+            to_disown = [xonsh.jobs.tasks[tid]
+                    for argv in args if (tid := int(argv) - 1) >= 0]
+        except ValueError:
+            return "", "One or more jobsIDs is invalid: {}\n".format(args)
+    else:
+        return "", "Must specify 1 or more job IDs."
+
+    for tid in to_disown:
+        current_task = xonsh.jobs.get_task(tid)
+        # Resume the task in case it is paused
+        xonsh.jobs._continue(current_task)
+
+        # Stop tracking this task
+        xonsh.jobs.tasks.remove(tid)
+        del builtins.__xonsh__.all_jobs[tid]
+        # the shell won't exit normally if there are disowned procs, but the
+        # procs continue to run..
+        current_task['obj'].proc.poll = lambda: True
+        current_task['obj'].poll = lambda: 0
+aliases['disown'] = _disown
+
+abbrevs['fixrzr'] = 'sudo usbhid-dump -m 1532'
+abbrevs['fixrate'] = 'xset r rate 200 25'

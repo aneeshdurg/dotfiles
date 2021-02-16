@@ -1,0 +1,72 @@
+xterm*selectToClipboard: true
+xterm*saveLines: 50000
+xterm*renderFont: true
+xterm*faceName: Monospace
+xterm*faceSize: 8
+xterm*termName: xterm-256color
+
+! special
+*.foreground:   #c5c8c6
+*.background:   #3f3f3f
+*.cursorColor:  #c5c8c6
+
+! black
+*.color0:       #52565e
+*.color8:       #77808d
+
+! red
+*.color1:       #a54242
+*.color9:       #cc6666
+
+! green
+*.color2:       #7fc000
+*.color10:      #9eef00
+
+! yellow
+*.color3:       #de935f
+*.color11:      #f0c674
+
+! blue
+*.color4:       #5f819d
+*.color12:      #81a2be
+
+! magenta
+*.color5:       #85678f
+*.color13:      #b294bb
+
+! cyan
+*.color6:       #5e8d87
+*.color14:      #8abeb7
+
+! white
+*.color7:       #a4b0bc
+*.color15:      #f4f8f6
+
+URxvt.depth: 32
+URxvt.background: [85]#3f3f3f
+
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+URxvt.font: xft:DejaVu Sans Mono:size=10
+
+URxvt.saveline: 10000
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+
+urxvt*urlLauncher:        /usr/bin/firefox
+urxvt*matcher.button:        1
+urxvt*matcher.pattern.1:   \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
+
+urxvt*perl-ext-common: default,matcher,selection-to-clipboard,tabbedex,resize-font
+
+
+URxvt.tabbed.tabbar-fg: 2
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg: 0
+URxvt.tabbed.tab-bg: 2
+URxvt.tabbed.autohide:  yes
+URxvt.tabbed.new-button:  no

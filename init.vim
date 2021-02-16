@@ -28,9 +28,15 @@ Plug 'autozimu/LanguageClient-neovim', {
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete-terminal'
 Plug 'zchee/deoplete-clang'
+" js stuff
+Plug 'jonsmithers/vim-html-template-literals'
+Plug 'pangloss/vim-javascript'
 " Plug 'tpope/vim-sleuth'
 " Initialize plugin system
 call plug#end()
+
+" JS template highlight all as html
+let g:htl_all_templates = "true"
 
 """
 "| |    __ _ _ __   __ _  __ _ _   _  __ _  __ _  ___

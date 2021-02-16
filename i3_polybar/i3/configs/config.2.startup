@@ -9,8 +9,10 @@ exec --no-startup-id xautolock -time 10 -locker "/home/aneesh/.i3/locker.py"
 exec --no-startup-id ~/.i3/battery_mon.py
 
 # wallpaper
-set $wallpaper "/home/aneesh/Pictures/Wallpapers/M101HST-GendlerM.jpg"
-exec_always --no-startup-id feh --no-fehbg --bg-scale $wallpaper
+# set $wallpaper "/home/aneesh/Pictures/Wallpapers/M101HST-GendlerM.jpg"
+set $wallpaper "/home/aneesh/Pictures/Wallpapers/swirls.png"
+# exec_always --no-startup-id feh --no-fehbg --bg-scale $wallpaper
+exec_always --no-startup-id feh --no-fehbg --bg-fill $wallpaper
 
 exec_always --no-startup-id bash $HOME/.i3/launch_polybar.sh
 # Start i3bar to display a workspace bar (plus the system information i3status
