@@ -260,8 +260,8 @@ bindsym $mod+Shift+d exec --no-startup-id rofi -show-icons -show run
 bindsym $mod+space exec --no-startup-id rofi -show-icons -show window
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-bindsym $mod+Tab move workspace to output up
-bindsym $mod+Shift+Tab move workspace to output down
+bindsym $mod+Tab exec ~/.i3/switch_ws.py next
+bindsym $mod+Shift+Tab exec ~/.i3/switch_ws.py prev
 
 bindsym $mod+x [urgent=latest] focus
 

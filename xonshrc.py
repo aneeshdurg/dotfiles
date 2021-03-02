@@ -33,6 +33,7 @@ aliases['cat'] = 'batcat'
 
 $GEM_HOME = f"{$HOME}/gems"
 $PATH.append("$HOME/gems/bin")
+$PATH.append("/usr/local/cuda-11.2/")
 
 def getvim():
     if 'NVIM_ACTIVE' in ${...}:
@@ -113,3 +114,5 @@ aliases['disown'] = _disown
 
 abbrevs['fixrzr'] = 'sudo usbhid-dump -m 1532'
 abbrevs['fixrate'] = 'xset r rate 200 25'
+
+$HISTCONTROL = "ignorespace"

@@ -112,9 +112,9 @@ set autochdir
 " FIGLET: spacing
 "
 set expandtab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 
 " setlocal cindent
 " setlocal cinoptions=:0,l1,t0,(4,u0,Ws
@@ -219,6 +219,7 @@ map <C-w><C-e> yy:new<CR>P:set filetype=scratchbuf<CR>
 autocmd FileType scratchbuf nnoremap <buffer>:q :%y<CR>:q!<CR>
 
 nnoremap <C-p> :FuzzyOpen<CR>
+nnoremap <C-p><C-g> :FuzzyGrep<CR>
 nnoremap <silent> <leader>a :ArgWrap<CR>
 
 " Autocomplete parens. Disabled because I don't like how it can't detect when
