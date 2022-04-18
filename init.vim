@@ -10,28 +10,30 @@
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'altercation/vim-colors-solarized'
-Plug 'cloudhead/neovim-fuzzy' " requires ag > 0.33.0 and fzy
-Plug 'FooSoft/vim-argwrap'
-Plug 'lambdalisue/suda.vim'
-Plug 'lepture/vim-jinja'
 Plug 'mhinz/vim-startify'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'Numkil/ag.nvim' " requires ag
-Plug 'radenling/vim-dispatch-neovim'
+Plug 'altercation/vim-colors-solarized'
 Plug 'tomasr/molokai'
-Plug 'tpope/vim-dispatch'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/deoplete-terminal'
-Plug 'zchee/deoplete-clang'
+
+Plug 'cloudhead/neovim-fuzzy' " requires ag > 0.33.0 and fzy
+Plug 'Numkil/ag.nvim' " requires ag
+Plug 'neovim/nvim-lspconfig'
+
+Plug 'FooSoft/vim-argwrap'
+Plug 'ntpeters/vim-better-whitespace'
+
+Plug 'lambdalisue/suda.vim'
+
+Plug 'lepture/vim-jinja'
 " js stuff
 Plug 'jonsmithers/vim-html-template-literals'
 Plug 'pangloss/vim-javascript'
-" Plug 'tpope/vim-sleuth'
+
+Plug 'radenling/vim-dispatch-neovim'
+Plug 'tpope/vim-dispatch'
+
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'romgrk/nvim-treesitter-context'
+
 " Initialize plugin system
 call plug#end()
 
@@ -55,24 +57,24 @@ let g:htl_all_templates = "true"
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['/usr/local/bin/pyls'],
-    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
-    \ }
+nnoremap <silent> KK :lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> K :lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <F2> :lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> R :lua vim.lsp.buf.reference()<CR>
+vnoremap <silent> gf :lua vim.lsp.buf.range_formatting()<CR>
+nnoremap <silent> gf :lua vim.lsp.buf.formatting()<CR>
+nnoremap <silent> <leader>n :lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> <leader>p :lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> <F1> 
+inoremap <silent> <F1> 
 
-" nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" " Or map each action separately
-" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#num_processes = 1
-let g:deoplete#auto_complete_start_length = 1
-"""
+lua << EOF
+require'lspconfig'.clangd.setup{}
+require'treesitter-context'.setup{
+    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    throttle = true, -- Throttles plugin updates (may improve performance)
+}
+EOF
 
 let g:rehash256 = 1
 let g:molokai_original = 1
@@ -177,10 +179,6 @@ map <C-c><C-c> :let g:saved_bufnum=bufnr('%')<CR>
 map <C-c><C-x> :let g:saved_bufnum=bufnr('%') \| q <CR>
 map <C-c><C-p> :exe "b"g:saved_bufnum<CR>
 
-" Disabling for now
-"nnoremap :q<CR> :clo<CR>
-"nnoremap :wq<CR> :w\|clo<CR>
-
 nnoremap <silent> <esc> :noh<cr><esc>
 
 function! ClangFormatDiff()
@@ -221,15 +219,6 @@ autocmd FileType scratchbuf nnoremap <buffer>:q :%y<CR>:q!<CR>
 nnoremap <C-p> :FuzzyOpen<CR>
 nnoremap <C-p><C-g> :FuzzyGrep<CR>
 nnoremap <silent> <leader>a :ArgWrap<CR>
-
-" Autocomplete parens. Disabled because I don't like how it can't detect when
-" there's already a closing paren.
-" inoremap ( ()<ESC>i
-" inoremap [ []<ESC>i
-" inoremap { {}<ESC>i
-" inoremap ' ''<ESC>i
-" inoremap " ""<ESC>i
-" inoremap ` ``<ESC>i
 
 if filereadable("/home/adurg/src/tools/editors/vim/plugin/figlet.vim")
     source /home/adurg/src/tools/editors/vim/plugin/figlet.vim

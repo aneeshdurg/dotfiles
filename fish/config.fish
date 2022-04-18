@@ -16,26 +16,18 @@ end
 
 # vi editing mode for maximum productivity
 fish_vi_key_bindings
-# bind '"\e[1;5D" backward-word'
-# bind '"\e[1;5C" forward-word'
 
 # redshift shortcuts
 alias rsx='redshift -x'
 alias rson='redshift -O 3500'
 # configure view to work with nvim
 alias view='nvim -R'
-# compilers/frameworks
-alias ldc='ldc2'
-# I don't want node-js in my path, so I've made aliases to things I want to use.
-alias react-native='/usr/bin/nodejs8/bin/react-native'
-alias create-react-native='/usr/bin/nodejs8/bin/create-react-native'
-# Alias for the wu-tan name generator - didn't think this needed to be in PATH
-alias wu-tang='~/dotfiles/wu-tang.sh'
+alias cat='batcat'
 
 # Environment variables for go projects
 set -x GOPATH /usr/share/go
 set -gx PATH $PATH "$GOROOT"/bin "$GOPATH"/bin ^/dev/null
-set -gx PATH /opt/qumulo/toolchain/bin $PATH
+set -gx PATH /home/aneesh/workbin $PATH
 
 function oops -d "Correct your previous console command"
   set -l bad_command $history[1]
@@ -111,6 +103,8 @@ function fish_greeting
   nvim_header
   tmux ls 2>/dev/null >/dev/null; and tmux_status
 
+  cat ~/todo.txt 2>/dev/null
+
   set VIM_SESSIONS (ls ~ | grep "\.*vim\$" | tr ' ' '\n')
   if [ "$VIM_SESSIONS" != "" ]
     echo -ne "Saved vim sessions: \n\033[1;32m"
@@ -128,7 +122,17 @@ function lszwin
     end
 end
 
+function rename
+  sed -i "s/"$argv[1]"/"$argv[2]"/g" (ag $argv[1] -l)
+end
 
 set -gx PATH /usr/local/bin/gradle $PATH
 
-source ~/.cargo/env
+# source ~/.cargo/env
+
+# Generated for envman. Do not edit.
+test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
+
+zoxide init fish | source
+
+set -x AWS_EC2_METADATA_DISABLED "true"
