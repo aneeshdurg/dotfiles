@@ -34,6 +34,15 @@ Plug 'tpope/vim-dispatch'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'romgrk/nvim-treesitter-context'
 
+" kotlin
+Plug 'udalov/kotlin-vim'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
+
+"
+Plug 'tpope/vim-fugitive'
+
 " Initialize plugin system
 call plug#end()
 
@@ -58,30 +67,41 @@ let g:htl_all_templates = "true"
 set hidden
 
 nnoremap <silent> KK :lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> K :lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K :Telescope lsp_definitions<CR>
 nnoremap <silent> <F2> :lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> R :lua vim.lsp.buf.reference()<CR>
+nnoremap <silent> R :Telescope lsp_references<CR>
 vnoremap <silent> gf :lua vim.lsp.buf.range_formatting()<CR>
-nnoremap <silent> gf :lua vim.lsp.buf.formatting()<CR>
+nnoremap <silent> gf :lua vim.lsp.buf.format()<CR>
 nnoremap <silent> <leader>n :lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <silent> <leader>p :lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> <F1> 
 inoremap <silent> <F1> 
 
 lua << EOF
-require'lspconfig'.clangd.setup{}
+require'lspconfig'.clangd.setup{
+  cmd = { "/Users/aneesh/mambaforge/envs/DEV/bin/clangd" }
+  -- cmd = { "clangd", "--log=verbose" } -- Enable verbose logging
+}
+require'lspconfig'.pyright.setup{
+  cmd = { "conda", "run", "-n", "DEV", "--no-capture-output", "pyright-langserver", "--stdio" }
+}
+require'lspconfig'.jdtls.setup{
+  cmd = { "conda", "run", "-n", "jdtls", "--no-capture-output", "/Users/aneesh/jdtls/bin/jdtls" }
+}
 require'treesitter-context'.setup{
     enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
     throttle = true, -- Throttles plugin updates (may improve performance)
 }
 EOF
 
+runtime lua/helpers.lua
+
 let g:rehash256 = 1
 let g:molokai_original = 1
 colorscheme molokai
 hi Normal guibg=None ctermbg=None
 hi LineNr guibg=NONE ctermbg=NONE guifg=white ctermfg=white
-hi Visual term=reverse cterm=reverse guibg=White
+hi Visual term=reverse cterm=reverse guibg=#4422af
 hi ColorColumn ctermbg=Grey
 
 let g:ag_working_path_mode="r"
@@ -123,9 +143,20 @@ set softtabstop=2
 " setlocal formatoptions=croql
 " setlocal comments=sr:/*,mb:*,el:*/,://
 
+set termguicolors
+
 " Scroll up/down
 map <C-j> <C-e>
 map <C-k> <C-y>
+
+" Open a terminal in a split
+nnoremap <C-t><C-t> :vs<CR>:term<CR> i
+nnoremap <C-t><C-p> :vs<CR>:term python<CR> i
+nnoremap <C-t><C-c> :tabnew<CR>:term browsh --startup-url https://en.cppreference.com<CR>i
+nnoremap <C-t> :vs<CR>:term<CR> i
+
+" Open a terminal in the repo root
+nnoremap <C-b> :vs<CR>:Gcd<CR>:term<CR> i
 
 " Set environment variable to let subprocess of nvim know that they are spawned
 " from a vim process. see .bashrc for an example of how this can be used to
@@ -181,26 +212,6 @@ map <C-c><C-p> :exe "b"g:saved_bufnum<CR>
 
 nnoremap <silent> <esc> :noh<cr><esc>
 
-function! ClangFormatDiff()
-  let diff_result = system("diff <(clang-format ".bufname("%").") ".bufname("%"))
-  if diff_result == ""
-    echo "Formatting looks good!"
-    return
-  endif
-
-  echo diff_result
-  let do_diff = confirm('Perform diff?', "&Yes\n&No", 2)
-  if do_diff == 1
-    call system("clang-format -i ".bufname("%"))
-    edit
-    undo
-    write
-    redo
-    redraw
-  endif
-endfunc
-map <C-c><C-f> :call ClangFormatDiff()<CR>
-
 " Toggles mouse enabled by pressing <C-c><C-m>
 function! ToggleMouse()
     if &mouse == 'a'
@@ -216,13 +227,29 @@ map <C-w><C-m> :tab split<CR>
 map <C-w><C-e> yy:new<CR>P:set filetype=scratchbuf<CR>
 autocmd FileType scratchbuf nnoremap <buffer>:q :%y<CR>:q!<CR>
 
-nnoremap <C-p> :FuzzyOpen<CR>
-nnoremap <C-p><C-g> :FuzzyGrep<CR>
+let g:fuzzy_rootcmds = [
+\ ["git", "rev-parse", "--show-toplevel"],
+\ ]
+
+nnoremap <C-f> :FuzzyOpen<CR>
+nnoremap <C-f><C-g> :FuzzyGrep<CR>
+
+nnoremap <C-p><C-p> :Telescope git_files<CR>
+nnoremap <C-p><C-l> :Telescope find_files<CR>
+nnoremap <C-p><C-s> :Telescope lsp_dynamic_workspace_symbols<CR>
+nnoremap <C-p><C-g> :Gcd<CR>:Telescope live_grep<CR>
+nnoremap <C-p><C-e> :Gcd<CR>:cfile error.errs<CR>:Telescope quickfix<CR>
 nnoremap <silent> <leader>a :ArgWrap<CR>
 
-if filereadable("/home/adurg/src/tools/editors/vim/plugin/figlet.vim")
-    source /home/adurg/src/tools/editors/vim/plugin/figlet.vim
-endif
+" git commands
+nnoremap <C-g><C-b> :Telescope git_branches<CR>
+nnoremap <C-g><C-s> :Telescope git_status<CR>
+nnoremap <C-g><C-h> :Telescope git_stash<CR>
+nnoremap <C-g><C-l> :Telescope git_commits<CR>
+nnoremap <C-g><C-a> :Git <CR>
+nnoremap <C-g><C-c> :Git commit <CR>
+nnoremap <C-g><C-p> :vs \| term gp <CR>
+nnoremap <C-g><C-p><C-f> :vs \| term gp -f <CR>
 
 function! DeleteHiddenBuffers()
     let tpbl=[]
