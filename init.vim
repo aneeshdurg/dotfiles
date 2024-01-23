@@ -77,6 +77,8 @@ nnoremap <silent> <leader>p :lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> <F1> 
 inoremap <silent> <F1> 
 
+vnoremap <C-p> x:put =system(['python3', '-c', @@])<CR>
+
 lua << EOF
 require'lspconfig'.clangd.setup{
   cmd = { "/Users/aneesh/mambaforge/envs/DEV/bin/clangd" }
@@ -237,12 +239,15 @@ nnoremap <C-f><C-g> :FuzzyGrep<CR>
 nnoremap <C-p><C-p> :Telescope git_files<CR>
 nnoremap <C-p><C-l> :Telescope find_files<CR>
 nnoremap <C-p><C-s> :Telescope lsp_dynamic_workspace_symbols<CR>
+inoremap <C-p><C-s> <Esc>:Telescope lsp_dynamic_workspace_symbols<CR>
 nnoremap <C-p><C-g> :Gcd<CR>:Telescope live_grep<CR>
+inoremap <C-p><C-g> <Esc>:Gcd<CR>:Telescope live_grep<CR>
 nnoremap <C-p><C-e> :Gcd<CR>:cfile error.errs<CR>:Telescope quickfix<CR>
 nnoremap <silent> <leader>a :ArgWrap<CR>
 
 " git commands
 nnoremap <C-g><C-b> :Telescope git_branches<CR>
+nnoremap <C-g><C-i> :Telescope git_branches<CR>
 nnoremap <C-g><C-s> :Telescope git_status<CR>
 nnoremap <C-g><C-h> :Telescope git_stash<CR>
 nnoremap <C-g><C-l> :Telescope git_commits<CR>
