@@ -163,6 +163,7 @@ eval /Users/aneesh/mambaforge/bin/conda "shell.fish" "hook" $argv | source
 # <<< conda initialize <<<
 
 # hack for getting conda env vars to work in fish when switching envs
+alias r='conda run --live-stream'
 function ca
   conda activate $argv[1]
   for l in (r ~/.local/bin/export_conda_vars.py)
