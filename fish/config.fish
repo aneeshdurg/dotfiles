@@ -1,4 +1,5 @@
-# A fish prompt that look suspiciously like the bash prompt
+eval (/opt/homebrew/bin/brew shellenv)
+# A fish prompt that looks suspiciously like the bash prompt
 function fish_prompt
   echo -n (set_color --bold 9eef00)"$USER""@"(hostname)
   echo -n (set_color normal):
@@ -17,27 +18,10 @@ end
 # vi editing mode for maximum productivity
 fish_vi_key_bindings
 
-# redshift shortcuts
-alias rsx='redshift -x'
-alias rson='redshift -O 3500'
-# configure view to work with nvim
-alias view='nvim -R'
-alias cat='batcat'
+alias cat='bat'
 
-# Environment variables for go projects
-set -x GOPATH /usr/share/go
-set -gx PATH $PATH "$GOROOT"/bin "$GOPATH"/bin ^/dev/null
-set -gx PATH /home/aneesh/workbin $PATH
-
-function oops -d "Correct your previous console command"
-  set -l bad_command $history[1]
-  env TF_ALIAS=oops PYTHONIOENCODING=utf-8 thefuck $bad_command | read -l good_command
-  if [ "$good_command" != "" ]
-    eval $good_command
-    builtin history delete --exact --case-sensitive -- $bad_command
-    builtin history merge ^ /dev/null
-  end
-end
+set -gx PATH /Users/aneesh/nvim-macos/bin/ $PATH
+set -gx PATH /Users/aneesh/jdtls/bin/ $PATH
 
 set -x GEM_HOME "$HOME/gems"
 set -gx PATH $PATH "$HOME/gems/bin"
@@ -126,13 +110,102 @@ function rename
   sed -i "s/"$argv[1]"/"$argv[2]"/g" (ag $argv[1] -l)
 end
 
-set -gx PATH /usr/local/bin/gradle $PATH
-
-# source ~/.cargo/env
-
 # Generated for envman. Do not edit.
 test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
 
 zoxide init fish | source
 
-set -x AWS_EC2_METADATA_DISABLED "true"
+# nvm
+function nvm
+   bass source (brew --prefix nvm)/nvm.sh --no-use ';' nvm $argv
+end
+
+set -x NVM_DIR ~/.nvm
+nvm use default --silent
+
+
+################################################################################
+#        _ _
+#   __ _(_) |_
+#  / _` | | __|
+# | (_| | | |_
+#  \__, |_|\__|
+#  |___/
+# figlet: git
+################################################################################
+alias gp='git push origin (git rev-parse --abbrev-ref HEAD)'
+alias gb='git branch'
+alias gd='git diff'
+alias gs='git status'
+# interactive search git branches and checkout, or pick the closest match and
+# checkout
+function gc
+  set cmd "fzy"
+  if test (count $argv) -gt 0
+    set cmd "fzy -e \"$argv\" | head -n 1"
+  end
+  set branch_name (gb | rev | cut -d\  -f 1 | rev | eval $cmd)
+  git checkout $branch_name
+end
+################################################################################
+
+################################################################################
+#   ___ ___  _ __   __| | __ _
+#  / __/ _ \| '_ \ / _` |/ _` |
+# | (_| (_) | | | | (_| | (_| |
+#  \___\___/|_| |_|\__,_|\__,_|
+# figlet: conda
+################################################################################
+set -x CONDA_LEFT_PROMPT "true"
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+eval /Users/aneesh/mambaforge/bin/conda "shell.fish" "hook" $argv | source
+# <<< conda initialize <<<
+
+# hack for getting conda env vars to work in fish when switching envs
+function ca
+  conda activate $argv[1]
+  for l in (r ~/.local/bin/export_conda_vars.py)
+    eval $l
+  end
+end
+################################################################################
+
+
+################################################################################
+#  _               _
+# | |__   ___   __| | ___
+# | '_ \ / _ \ / _` |/ _ \
+# | |_) | (_) | (_| | (_) |
+# |_.__/ \___/ \__,_|\___/
+# figlet: bodo
+################################################################################
+# Enable detailed error messages for local development
+set -x NUMBA_DEVELOPER_MODE 1
+# Disable Python buffering
+set -x PYTHONBUFFERED 1
+
+function b
+  pushd (git rev-parse --show-toplevel )
+  env BODO_FORCE_COLORED_BUILD=1 python3 setup.py develop &| tee error.errs
+  set retval $pipestatus[1]
+  popd
+  return $retval
+end
+function bsql
+  pushd (git rev-parse --show-toplevel )/BodoSQL
+  env BODO_FORCE_COLORED_BUILD=1 python3 setup.py develop &| tee ../error_bsql.errs
+  set retval $pipestatus[1]
+  popd
+  return $retval
+end
+
+function sg
+  pushd (git rev-parse --show-toplevel )
+  ag \
+    --ignore BodoSQL/calcite_sql/bodosql-calcite-application/src/test/resources/com/bodosql/calcite/application/_generated_files/ \
+    --ignore BodoSQL/calcite_sql/bodosql-calcite-application/src/test/resources/com/bodosql/calcite/application/table_schemas/ \
+    $argv
+  popd
+end
+################################################################################
