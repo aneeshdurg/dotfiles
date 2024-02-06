@@ -195,7 +195,7 @@ function b
 end
 function bsql
   pushd (git rev-parse --show-toplevel )/BodoSQL
-  env BODO_FORCE_COLORED_BUILD=1 python3 setup.py develop &| tee ../error_bsql.errs
+  env BODO_FORCE_COLORED_BUILD=1 python setup.py develop &| tee ../error_bsql.errs
   set retval $pipestatus[1]
   popd
   return $retval

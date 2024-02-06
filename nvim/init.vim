@@ -1,71 +1,13 @@
-"       _             _
-" _ __ | |_   _  __ _(_)_ __  ___
-"| '_ \| | | | |/ _` | | '_ \/ __|
-"| |_) | | |_| | (_| | | | | \__ \
-"| .__/|_|\__,_|\__, |_|_| |_|___/
-"|_|            |___/
-" FIGLET: plugins
-"
-" Specify a directory for plugins
-" - For Neovim: ~/.local/share/nvim/plugged
-" - Avoid using standard Vim directory names like 'plugin'
-call plug#begin('~/.local/share/nvim/plugged')
-Plug 'mhinz/vim-startify'
-Plug 'altercation/vim-colors-solarized'
-Plug 'tomasr/molokai'
-
-Plug 'cloudhead/neovim-fuzzy' " requires ag > 0.33.0 and fzy
-Plug 'Numkil/ag.nvim' " requires ag
-Plug 'neovim/nvim-lspconfig'
-
-Plug 'FooSoft/vim-argwrap'
-Plug 'ntpeters/vim-better-whitespace'
-
-Plug 'lambdalisue/suda.vim'
-
-Plug 'lepture/vim-jinja'
-" js stuff
-Plug 'jonsmithers/vim-html-template-literals'
-Plug 'pangloss/vim-javascript'
-
-Plug 'radenling/vim-dispatch-neovim'
-Plug 'tpope/vim-dispatch'
-
-Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'romgrk/nvim-treesitter-context'
-
-" kotlin
-Plug 'udalov/kotlin-vim'
-
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
-
-"
-Plug 'tpope/vim-fugitive'
-
-" Initialize plugin system
-call plug#end()
+" require 'config' before anything else because it loads all plugins
+lua require('config')
 
 " JS template highlight all as html
 let g:htl_all_templates = "true"
 
-"""
-"| |    __ _ _ __   __ _  __ _ _   _  __ _  __ _  ___
-"| |   / _` | '_ \ / _` |/ _` | | | |/ _` |/ _` |/ _ \
-"| |__| (_| | | | | (_| | (_| | |_| | (_| | (_| |  __/
-"|_____\__,_|_| |_|\__,_|\__, |\__,_|\__,_|\__, |\___|
-"                        |___/             |___/
-" ____                              ____             __ _
-"/ ___|  ___ _ ____   _____ _ __   / ___|___  _ __  / _(_) __ _
-"\___ \ / _ \ '__\ \ / / _ \ '__| | |   / _ \| '_ \| |_| |/ _` |
-" ___) |  __/ |   \ V /  __/ |    | |__| (_) | | | |  _| | (_| |
-"|____/ \___|_|    \_/ \___|_|     \____\___/|_| |_|_| |_|\__, |
-"                                                         |___/
-" FIGLET: language server config
-"""
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
+nnoremap <silent> <C-,> lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> KK :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> K :Telescope lsp_definitions<CR>
 nnoremap <silent> <F2> :lua vim.lsp.buf.rename()<CR>
@@ -78,23 +20,6 @@ nnoremap <silent> <F1> 
 inoremap <silent> <F1> 
 
 vnoremap <C-p> x:put =system(['python3', '-c', @@])<CR>
-
-lua << EOF
-require'lspconfig'.clangd.setup{
-  cmd = { "/Users/aneesh/mambaforge/envs/DEV/bin/clangd" }
-  -- cmd = { "clangd", "--log=verbose" } -- Enable verbose logging
-}
-require'lspconfig'.pyright.setup{
-  cmd = { "conda", "run", "-n", "DEV", "--no-capture-output", "pyright-langserver", "--stdio" }
-}
-require'lspconfig'.jdtls.setup{
-  cmd = { "conda", "run", "-n", "jdtls", "--no-capture-output", "/Users/aneesh/jdtls/bin/jdtls" }
-}
-require'treesitter-context'.setup{
-    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-    throttle = true, -- Throttles plugin updates (may improve performance)
-}
-EOF
 
 runtime lua/helpers.lua
 
@@ -201,6 +126,8 @@ autocmd FileType bashfc nnoremap <buffer> :wq<CR> :w\|bd<CR>
 autocmd FileType bashfc nnoremap <buffer> q<CR> :bd<CR>
 autocmd FileType bashfc nnoremap <buffer> wq<CR> :w\|bd<CR>
 
+autocmd FileType markdown setlocal spell spelllang=en_us
+
 " Double escape to return to normal mode in terminal
 tnoremap <Esc><Esc> <C-\><C-n>
 
@@ -233,14 +160,7 @@ let g:fuzzy_rootcmds = [
 \ ["git", "rev-parse", "--show-toplevel"],
 \ ]
 
-nnoremap <C-f> :FuzzyOpen<CR>
-nnoremap <C-f><C-g> :FuzzyGrep<CR>
-
-
-
-
-inoremap <C-p><C-p> <Esc>:lua require('telescope.builtin').git_files({git_command={"git", "ls-files", ".", ":!:*.txt"}})<CR>
-nnoremap <C-p><C-p> :lua require('telescope.builtin').git_files({git_command={"git", "ls-files", ".", ":!:*.txt"}})<CR>
+nnoremap <C-p><C-p> :Telescope git_files<CR>
 nnoremap <C-p><C-l> :Telescope find_files<CR>
 nnoremap <C-p><C-s> :Telescope lsp_dynamic_workspace_symbols<CR>
 inoremap <C-p><C-s> <Esc>:Telescope lsp_dynamic_workspace_symbols<CR>
