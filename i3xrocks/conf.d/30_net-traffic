@@ -1,0 +1,4 @@
+# Displays network load
+[net-traffic]
+command=/usr/share/i3xrocks/scripts/net-traffic
+interval=repeat

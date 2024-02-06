@@ -43,7 +43,7 @@ xterm*termName: xterm-256color
 *.color15:      #f4f8f6
 
 URxvt.depth: 32
-URxvt.background: [85]#3f3f3f
+URxvt.background: [90]#3f3f3f
 
 URxvt.iso14755: false
 URxvt.iso14755_52: false

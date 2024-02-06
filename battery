@@ -1,0 +1,35 @@
+#!/bin/bash
+
+BUTTON=${button:-}
+
+get_acpi_status() {
+  acpi -b | grep -v unavailable | head -n1
+}
+
+BAT=$(get_acpi_status | grep -E -o '[0-9]*%')
+CHARGE=" "
+if get_acpi_status | grep "Charging\|Full" > /dev/null
+then
+  CHARGE="+"
+fi
+
+# Full and short texts
+echo "⚡ ${CHARGE}$BAT"
+echo "BAT:${CHARGE}$BAT"
+
+exitcode=0
+if [ "$CHARGE" == " " ]
+then
+  # Set urgent flag below 5% or use orange below 20%
+  [ ${BAT%?} -le 5 ] && exitcode=33
+  [ ${BAT%?} -le 20 ] && echo "#FF8000"
+else
+  echo "#A8CC74"
+fi
+
+if [ "x${BUTTON}" == "x1" ]; then
+    ACTION=$(xrescat i3xrocks.action.power "/usr/bin/gnome-control-center --class=floating_window power")
+    /usr/bin/i3-msg -q exec "$ACTION"
+fi
+
+exit $exitcode

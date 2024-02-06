@@ -1,4 +1,3 @@
-eval (/opt/homebrew/bin/brew shellenv)
 # A fish prompt that looks suspiciously like the bash prompt
 function fish_prompt
   echo -n (set_color --bold 9eef00)"$USER""@"(hostname)
@@ -19,9 +18,7 @@ end
 fish_vi_key_bindings
 
 alias cat='bat'
-
-set -gx PATH /Users/aneesh/nvim-macos/bin/ $PATH
-set -gx PATH /Users/aneesh/jdtls/bin/ $PATH
+alias sl='ls'
 
 set -x GEM_HOME "$HOME/gems"
 set -gx PATH $PATH "$HOME/gems/bin"
@@ -99,30 +96,11 @@ function fish_greeting
   cat ~/.messages 2>/dev/null
 end
 
-function lszwin
-    for pid in (xdotool search --class zoom)
-        echo -n "$pid "
-        xdotool getwindowname $pid
-    end
-end
-
 function rename
   sed -i "s/"$argv[1]"/"$argv[2]"/g" (ag $argv[1] -l)
 end
 
-# Generated for envman. Do not edit.
-test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
-
 zoxide init fish | source
-
-# nvm
-function nvm
-   bass source (brew --prefix nvm)/nvm.sh --no-use ';' nvm $argv
-end
-
-set -x NVM_DIR ~/.nvm
-nvm use default --silent
-
 
 ################################################################################
 #        _ _
@@ -166,47 +144,14 @@ eval /Users/aneesh/mambaforge/bin/conda "shell.fish" "hook" $argv | source
 alias r='conda run --live-stream'
 function ca
   conda activate $argv[1]
-  for l in (r ~/.local/bin/export_conda_vars.py)
+  for l in (r ~/dotfiles/export_conda_vars.py)
     eval $l
   end
 end
 ################################################################################
 
 
-################################################################################
-#  _               _
-# | |__   ___   __| | ___
-# | '_ \ / _ \ / _` |/ _ \
-# | |_) | (_) | (_| | (_) |
-# |_.__/ \___/ \__,_|\___/
-# figlet: bodo
-################################################################################
-# Enable detailed error messages for local development
-set -x NUMBA_DEVELOPER_MODE 1
-# Disable Python buffering
-set -x PYTHONBUFFERED 1
-
-function b
-  pushd (git rev-parse --show-toplevel )
-  env BODO_FORCE_COLORED_BUILD=1 python3 setup.py develop &| tee error.errs
-  set retval $pipestatus[1]
-  popd
-  return $retval
+set HOST_CONFIG ~/dotfiles/fish/(string split -f 1 '.' (hostname)).config.fish
+if test -f $HOST_CONFIG
+  source $HOST_CONFIG
 end
-function bsql
-  pushd (git rev-parse --show-toplevel )/BodoSQL
-  env BODO_FORCE_COLORED_BUILD=1 python setup.py develop &| tee ../error_bsql.errs
-  set retval $pipestatus[1]
-  popd
-  return $retval
-end
-
-function sg
-  pushd (git rev-parse --show-toplevel )
-  ag \
-    --ignore BodoSQL/calcite_sql/bodosql-calcite-application/src/test/resources/com/bodosql/calcite/application/_generated_files/ \
-    --ignore BodoSQL/calcite_sql/bodosql-calcite-application/src/test/resources/com/bodosql/calcite/application/table_schemas/ \
-    $argv
-  popd
-end
-################################################################################
