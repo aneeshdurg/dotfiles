@@ -79,7 +79,7 @@ end
 
 function fish_greeting
   # Print out a random quote before yielding to the user
-  ~/dotfiles/.quotes.py
+  ~/dotfiles/quotes.py
 
   nvim_header
   tmux ls 2>/dev/null >/dev/null; and tmux_status
