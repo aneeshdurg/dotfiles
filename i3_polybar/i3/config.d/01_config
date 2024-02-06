@@ -1,0 +1,14 @@
+exec --no-startup-id /home/aneesh/.i3/set_touchpad.py
+
+# bindsym $alt+Up exec --no-startup-id rofi -show-icons -show window
+# bindsym $alt+Left exec ~/.i3/ws_switcher.sh prev
+# bindsym $alt+Right exec ~/.i3/ws_switcher.sh next
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+for_window[title="Zoom - Licensed Account"] floating enable
+for_window[title="zoom"] floating enable
+for_window[title="Chat"] floating enable
+
+bindsym $mod+Shift+space floating toggle
