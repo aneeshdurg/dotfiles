@@ -57,5 +57,3 @@ alias n='ninja -C (git rev-parse --show-toplevel)/build'
 #     eval /home/aneesh/miniconda3/bin/conda "shell.fish" "hook" $argv | source
 # end
 # # <<< conda initialize <<<
-
-
