@@ -160,7 +160,19 @@ let g:fuzzy_rootcmds = [
 \ ["git", "rev-parse", "--show-toplevel"],
 \ ]
 
-nnoremap <C-p><C-p> :Telescope git_files<CR>
+
+
+let is_delphinus = split(hostname(), '\.')[0] == 'delphinus'
+
+" Ignore .txt files in git_files if on delphinus (work)
+if is_delphinus
+  inoremap <C-p><C-p> <Esc>:lua require('telescope.builtin').git_files({git_command={"git", "ls-files", ".", ":!:*.txt"}})<CR>
+  nnoremap <C-p><C-p> :lua require('telescope.builtin').git_files({git_command={"git", "ls-files", ".", ":!:*.txt"}})<CR>
+else
+  inoremap <C-p><C-p> <Esc>:Telescope git_files<CR>
+  nnoremap <C-p><C-p> :Telescope git_files<CR>
+endif
+
 nnoremap <C-p><C-l> :Telescope find_files<CR>
 nnoremap <C-p><C-s> :Telescope lsp_dynamic_workspace_symbols<CR>
 inoremap <C-p><C-s> <Esc>:Telescope lsp_dynamic_workspace_symbols<CR>
