@@ -7,7 +7,7 @@ let g:htl_all_templates = "true"
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
-nnoremap <silent> <C-,> lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> <M-A> :lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> KK :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> K :Telescope lsp_definitions<CR>
 nnoremap <silent> <F2> :lua vim.lsp.buf.rename()<CR>
