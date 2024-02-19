@@ -36,7 +36,7 @@ set -x PYTHONBUFFERED 1
 
 function b
   pushd (git rev-parse --show-toplevel )
-  env BODO_FORCE_COLORED_BUILD=1 python3 setup.py develop &| tee error.errs
+  env BODO_FORCE_COLORED_BUILD=1 pip install --no-deps --no-build-isolation -ve .
   set retval $pipestatus[1]
   popd
   return $retval
