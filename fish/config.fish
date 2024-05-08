@@ -77,6 +77,14 @@ function tmux_status -d "Print running tmux sessions"
   echo -ne "\033[0m"
 end
 
+function todo
+  ~/dotfiles/todo.py ~/todo.txt $argv 2>/dev/null | bat --file-name ~/todo.txt -P
+end
+
+function todoe
+  vim ~/todo.txt
+end
+
 function fish_greeting
   # Print out a random quote before yielding to the user
   ~/dotfiles/quotes.py
@@ -84,12 +92,12 @@ function fish_greeting
   nvim_header
   tmux ls 2>/dev/null >/dev/null; and tmux_status
 
-  cat ~/todo.txt 2>/dev/null
+  todo
 
-  set VIM_SESSIONS (ls ~ | grep "\.*vim\$" | tr ' ' '\n')
+  set VIM_SESSIONS (ls ~ | grep "\.vim\$" | tr ' ' '\n')
   if [ "$VIM_SESSIONS" != "" ]
     echo -ne "Saved vim sessions: \n\033[1;32m"
-    ls ~ | grep "\.*vim\$" | sed 's/^/\t/'
+    ls ~ | grep "\.vim\$" | sed 's/^/\t/'
     echo -ne "\033[0m"
   end
 
