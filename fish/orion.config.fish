@@ -57,3 +57,15 @@ alias n='ninja -C (git rev-parse --show-toplevel)/build'
 #     eval /home/aneesh/miniconda3/bin/conda "shell.fish" "hook" $argv | source
 # end
 # # <<< conda initialize <<<
+
+function run_in_ns
+  set pid (docker inspect $argv[1] | jq \.[0].State.Pid)
+  set argv $argv[2..-1]
+  set flag "-n"
+  switch $argv[1]
+  case "-*"
+    set flag $argv[1]
+    set argv $argv[2..-1]
+  end
+  eval sudo nsenter -t $pid $flag '$argv'
+end

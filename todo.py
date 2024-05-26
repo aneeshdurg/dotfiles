@@ -21,6 +21,13 @@ def print_tagged(tag, content):
     print(content)
 
 
+def print_subtask(content):
+    if content.strip().startswith('x '):
+        print_color(Fore.LIGHTBLACK_EX, content)
+    else:
+        print(content)
+
+
 with open(sys.argv[1]) as f:
     lines = [l.rstrip() for l in f.readlines()]
     i = 0
@@ -43,7 +50,7 @@ with open(sys.argv[1]) as f:
             else:
                 print(l)
             for j in range(i + 1, i + subtasks + 1):
-                print(lines[j])
+                print_subtask(lines[j])
         i += subtasks + 1
 
     for task, subtasks in completed:

@@ -82,7 +82,8 @@ function todo
 end
 
 function todoe
-  vim ~/todo.txt
+  eval "$EDITOR ~/todo.txt"
+  todo
 end
 
 function fish_greeting
