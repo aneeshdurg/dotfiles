@@ -56,5 +56,6 @@ with open(sys.argv[1]) as f:
     for task, subtasks in completed:
         print_color(Fore.LIGHTBLACK_EX, lines[task])
         if len(sys.argv) > 2:
+            # Only print completed subtasks in verbose mode
             for j in range(task + 1, task + subtasks + 1):
                 print_color(Fore.LIGHTBLACK_EX, lines[j])

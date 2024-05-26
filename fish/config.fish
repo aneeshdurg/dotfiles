@@ -1,4 +1,6 @@
 # A fish prompt that looks suspiciously like the bash prompt
+set -gx PATH /home/aneesh/.local/bin/ $PATH
+set -gx PATH /home/aneesh/.local/bin/ $PATH
 function fish_prompt
   echo -n (set_color --bold 9eef00)"$USER""@"(hostname)
   echo -n (set_color normal):
@@ -78,7 +80,7 @@ function tmux_status -d "Print running tmux sessions"
 end
 
 function todo
-  ~/dotfiles/todo.py ~/todo.txt $argv 2>/dev/null | bat --file-name ~/todo.txt -P
+  ~/dotfiles/todo.py ~/todo.txt $argv 2>/dev/null | bat --file-name todo -P
 end
 
 function todoe
