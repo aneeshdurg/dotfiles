@@ -12,7 +12,6 @@ nnoremap <silent> KK :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> K :Telescope lsp_definitions<CR>
 nnoremap <silent> <F2> :lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> R :Telescope lsp_references<CR>
-vnoremap <silent> gf :lua vim.lsp.buf.range_formatting()<CR>
 nnoremap <silent> gf :lua vim.lsp.buf.format()<CR>
 nnoremap <silent> <leader>n :lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <silent> <leader>p :lua vim.lsp.diagnostic.goto_prev()<CR>
@@ -108,6 +107,9 @@ autocmd Filetype terminal set nonumber
 " Different length limit for js
 autocmd FileType * set colorcolumn=81
 autocmd FileType javascript set colorcolumn=121
+
+autocmd FileType rust set colorcolumn=101
+autocmd FileType rust set textwidth=100
 
 autocmd FileType tex set textwidth=0
 

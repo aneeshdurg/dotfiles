@@ -28,7 +28,7 @@ require("lazy").setup({
   "radenling/vim-dispatch-neovim",
   "tpope/vim-dispatch",
   "nvim-treesitter/nvim-treesitter",
-  "romgrk/nvim-treesitter-context",
+  -- "romgrk/nvim-treesitter-context",
   "udalov/kotlin-vim",
   "nvim-lua/plenary.nvim",
   {'nvim-telescope/telescope.nvim', tag = '0.1.5', dependencies = { 'nvim-lua/plenary.nvim' } },
@@ -38,16 +38,22 @@ require("lazy").setup({
 })
 
 require'lspconfig'.clangd.setup{
-  cmd = { "/Users/aneesh/mambaforge/envs/DEV/bin/clangd" }
-  -- cmd = { "clangd", "--log=verbose" } -- Enable verbose logging
+  -- cmd = { "/Users/aneesh/mambaforge/envs/DEV/bin/clangd" }
+  cmd = { "clangd", "--log=verbose" } -- Enable verbose logging
 }
 require'lspconfig'.pyright.setup{
-  cmd = { "conda", "run", "-n", "DEV", "--no-capture-output", "pyright-langserver", "--stdio" }
+  cmd = { "/home/aneesh/miniconda3/bin/conda", "run", "-n", "base", "--no-capture-output", "pyright-langserver", "--stdio" }
 }
 require'lspconfig'.jdtls.setup{
   cmd = { "conda", "run", "-n", "jdtls", "--no-capture-output", "/Users/aneesh/jdtls/bin/jdtls" }
 }
-require'treesitter-context'.setup{
-    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-    throttle = true, -- Throttles plugin updates (may improve performance)
-}
+
+
+require'lspconfig'.rust_analyzer.setup{}
+-- require'treesitter-context'.setup{
+--     enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+--     throttle = true, -- Throttles plugin updates (may improve performance)
+-- }
+
+
+vim.keymap.set("v", "gf", vim.lsp.buf.format, { noremap = true, silent = true })

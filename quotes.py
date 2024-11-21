@@ -26,10 +26,13 @@ quotes = [
     'The mind is not like raindrops. It does not fall from the skies, it does not lose itself among other things.\n\t-Haruki Murakami, Hard Boiled Wonderland And The End Of The World',
     # "Distilled for the eradication of seemingly incurable sadness.\n\t-Cillian Murphy, Peaky Blinders",
     # "Come here you worthless pup. Come here and take your medicine!\n\t-Stephen King, The Shining",
-    "Arguing with anonymous strangers on the Internet is a sucker's game because they almost always turn out to be—or to be indistinguishable from—self-righteous sixteen-year-olds possessing infinite amounts of free time.\n\t-Neal Stephenson, Cryptonomicon",
+    # "Arguing with anonymous strangers on the Internet is a sucker's game because they almost always turn out to be—or to be indistinguishable from—self-righteous sixteen-year-olds possessing infinite amounts of free time.\n\t-Neal Stephenson, Cryptonomicon",
     "But everyone also lives in the world inside their own head. An \x1B[3minscape\x1B[0m, a world of thought.\n\t-Joe Hill, NOS4A2",
     "Dance. As long as the music plays.\n\t-Haruki Murakami, Dance Dance Dance",
-    "Shriek into the vacuum if in spite of your accomplishments you wake up feeling empty like Houdini’s grave probably is.\n\t-Aesop Rock, Klutz"
+    "Shriek into the vacuum if in spite of your accomplishments you wake up feeling empty like Houdini’s grave probably is.\n\t-Aesop Rock, Klutz",
+    "Because it's there.\n\t-George Mallory",
+    "We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard.\n\t-John F. Kennedy",
+    "I did it for the fun of it.\n\t-Amelia Aerhart, 20 Hours and 40 Minutes",
     ]
 
 r = randint(0, len(quotes)-1)

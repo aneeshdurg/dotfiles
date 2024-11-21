@@ -172,3 +172,13 @@ set HOST_CONFIG ~/dotfiles/fish/(string split -f 1 '.' (hostname)).config.fish
 if test -f $HOST_CONFIG
   source $HOST_CONFIG
 end
+
+function gcd --wraps 'cd'
+  if test (count $argv) -eq 1
+    if string match ":*" $argv[1]
+      cd (git rev-parse --show-toplevel)(string sub --start=2 $argv[1])
+      return
+    end
+  end
+  builtin cd $argv
+end
