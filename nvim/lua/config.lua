@@ -38,8 +38,6 @@ require("lazy").setup({
 })
 
 require'lspconfig'.clangd.setup{
-  -- cmd = { "/Users/aneesh/mambaforge/envs/DEV/bin/clangd" }
-  cmd = { "clangd", "--log=verbose" } -- Enable verbose logging
 }
 require'lspconfig'.pyright.setup{
   cmd = { "/home/aneesh/miniconda3/bin/conda", "run", "-n", "base", "--no-capture-output", "pyright-langserver", "--stdio" }
