@@ -37,6 +37,8 @@ require("lazy").setup({
   --"TabbyML/vim-tabby",
 })
 
+require'lspconfig'.tsserver.setup {}
+
 require'lspconfig'.clangd.setup{
 }
 require'lspconfig'.pyright.setup{
