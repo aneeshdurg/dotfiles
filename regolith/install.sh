@@ -28,7 +28,7 @@ fi
 # Install custom i3 config files
 mkdir -p i3
 cd i3
-ln -s ~/dotfile/regolith/config .
+ln -s ~/dotfiles/regolith/config .
 cd ..
 
 # Allow GTK apps to be correctly themed to the system default (dark)
