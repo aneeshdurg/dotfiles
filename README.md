@@ -1,1 +1,3 @@
-Symlink this to ~/.config/regolith2/i3xrocks/
+# Dotfiles
+
+My configuration files and scripts.
