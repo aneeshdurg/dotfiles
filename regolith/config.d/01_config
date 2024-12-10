@@ -12,3 +12,8 @@ for_window[title="zoom"] floating enable
 for_window[title="Chat"] floating enable
 
 bindsym $mod+Shift+space floating toggle
+
+## Navigate // Move workspace to next monitor // <> Tab ##
+bindsym $mod+Tab exec ~/dotfiles/regolith/scripts/switch_ws.py next
+## Navigate // Move Workspace to previous monitor // <><Shift> Tab ##
+bindsym $mod+Shift+Tab exec ~/dotfiles/regolith/scripts/switch_ws.py prev

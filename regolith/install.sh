@@ -25,6 +25,12 @@ else
   ln -s "$defaultconfig" .
 fi
 
+# Install custom i3 config files
+mkdir -p i3
+cd i3
+ln -s ~/dotfile/regolith/config .
+cd ..
+
 # Allow GTK apps to be correctly themed to the system default (dark)
 cd ..
 ln -s ~/dotfiles/regolith/xdg-desktop-portal/ .
