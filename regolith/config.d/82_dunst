@@ -1,0 +1,6 @@
+exec --no-startup-id dunst
+
+bindsym $mod+p exec dunstctl set-paused toggle
+bindsym $mod+shift+p exec bash -c "notify-send 'The time is $(date)'"
+bindsym $alt+Return exec dunstctl history-pop
+bindsym $alt+space exec dunstctl close
