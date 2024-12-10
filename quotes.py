@@ -9,7 +9,7 @@ def fitColumn(final, s):
         final.append(s)
     else:
         c = columns
-        while c>=0 and s[c] != ' ':
+        while c >= 0 and c < len(s) and s[c] != ' ':
             c-=1
         if c < 0:
             final.append(s)
