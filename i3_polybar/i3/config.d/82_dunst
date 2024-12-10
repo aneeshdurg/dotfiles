@@ -1,5 +1,0 @@
-exec --no-startup-id dunst
-exec --no-startup-id $HOME/.i3/dunst_pause.py --start
-
-bindsym $mod+p exec ~/.i3/dunst_pause.py --toggle
-bindsym $mod+shift+p exec bash -c "notify-send 'The time is $(date)'"

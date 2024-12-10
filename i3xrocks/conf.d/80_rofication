@@ -1,6 +1,0 @@
-# Rofication
-#
-# Displays notifications.
-[notification]
-command=/home/aneesh/.i3/dunst_pause.py --query
-interval=1
