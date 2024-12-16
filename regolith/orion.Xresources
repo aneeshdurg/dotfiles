@@ -1,7 +1,12 @@
-i3xrocks.value.font:    BitstreamVeraSansMono Nerd Font 24
 i3xrocks.value.font:    BitstreamVeraSansMono Nerd Font 14
+
 regolith.wallpaper.file: /home/aneesh/Pictures/wallpaper.png
+regolith.lockscreen.wallpaper.file: /home/aneesh/Pictures/wallpaper.png
+
 gnome.terminal.update: false
+
+wm.binding.scratchpad: slash
+wm.binding.move_scratchpad: Shift+slash
 
 wm.binding.ws_next:  shift+period
 wm.binding.ws_prev:  shift+comma
