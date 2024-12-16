@@ -17,4 +17,5 @@ wm.binding.wifi: Ctrl+w
 wm.binding.bluetooth: Ctrl+b
 wm.binding.shutdown: Ctrl+Escape
 
+# earth specific config:
 wm.bar.position: top
