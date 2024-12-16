@@ -33,7 +33,7 @@ require("lazy").setup({
   "nvim-lua/plenary.nvim",
   {'nvim-telescope/telescope.nvim', tag = '0.1.5', dependencies = { 'nvim-lua/plenary.nvim' } },
   "tpope/vim-fugitive",
-  "github/copilot.vim",
+  --"github/copilot.vim",
   --"TabbyML/vim-tabby",
 })
 
