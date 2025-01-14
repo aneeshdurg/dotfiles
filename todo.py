@@ -34,6 +34,7 @@ with open(sys.argv[1]) as f:
     completed = []
     while i < len(lines):
         l = lines[i]
+
         subtasks = 0
         j = i + 1
         while j < len(lines) and lines[j].startswith(' '):
@@ -48,7 +49,10 @@ with open(sys.argv[1]) as f:
                 l = l[3:]
                 print_tagged(tag, l)
             else:
-                print(l)
+                if l.startswith('#'):
+                    print_color(Style.BRIGHT, l)
+                else:
+                    print(l)
             for j in range(i + 1, i + subtasks + 1):
                 print_subtask(lines[j])
         i += subtasks + 1
