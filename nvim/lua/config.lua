@@ -41,9 +41,11 @@ require'lspconfig'.tsserver.setup {}
 
 require'lspconfig'.clangd.setup{
 }
-require'lspconfig'.pyright.setup{
-  cmd = { "/home/aneesh/miniconda3/bin/conda", "run", "-n", "base", "--no-capture-output", "pyright-langserver", "--stdio" }
-}
+-- require'lspconfig'.pyright.setup{
+--   cmd = { "/home/aneesh/miniconda3/bin/conda", "run", "-n", "base", "--no-capture-output", "pyright-langserver", "--stdio" }
+-- }
+require'lspconfig'.pyright.setup{}
+
 require'lspconfig'.jdtls.setup{
   cmd = { "conda", "run", "-n", "jdtls", "--no-capture-output", "/Users/aneesh/jdtls/bin/jdtls" }
 }

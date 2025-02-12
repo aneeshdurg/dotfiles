@@ -19,4 +19,7 @@ wm.binding.wifi: Ctrl+w
 wm.binding.bluetooth: Ctrl+b
 wm.binding.shutdown: Ctrl+Escape
 
+wm.binding.launcher.window: backslash
+
+# orion specific config:
 wm.bar.mode: hide

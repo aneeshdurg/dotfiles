@@ -1,3 +1,5 @@
+regolith.swap.unsupported_gpu: true
+
 i3xrocks.value.font:    BitstreamVeraSansMono Nerd Font 24
 i3xrocks.value.font:    BitstreamVeraSansMono Nerd Font 14
 
@@ -20,5 +22,8 @@ wm.binding.wifi: Ctrl+w
 wm.binding.bluetooth: Ctrl+b
 wm.binding.shutdown: Ctrl+Escape
 
+wm.binding.launcher.window: backslash
+
 # earth specific config:
 wm.bar.position: top
+wm.program.terminal: /home/aneesh/.cargo/bin/alacritty

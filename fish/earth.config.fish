@@ -23,3 +23,12 @@ end
 function mvcurrent
   mv $argv ~/pando/current/
 end
+
+alias cor='ca corvic; poetry env use python3.11 && source (poetry env info --path)/bin/activate.fish'
+
+# pnpm
+set -gx PNPM_HOME "/home/aneesh/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end

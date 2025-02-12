@@ -162,7 +162,7 @@ alias r='conda run --live-stream'
 function ca
   conda activate $argv[1]
   for l in (r ~/dotfiles/export_conda_vars.py)
-    eval $l
+    eval $l 2>/dev/null || true
   end
 end
 ################################################################################
