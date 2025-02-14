@@ -181,6 +181,7 @@ inoremap <C-p><C-s> <Esc>:Telescope lsp_dynamic_workspace_symbols<CR>
 nnoremap <C-p><C-g> :Gcd<CR>:Telescope live_grep<CR>
 inoremap <C-p><C-g> <Esc>:Gcd<CR>:Telescope live_grep<CR>
 nnoremap <C-p><C-e> :Gcd<CR>:cfile error.errs<CR>:Telescope quickfix<CR>
+nnoremap <C-p><C-\> :lua require("telescope").extensions.winsearch.winsearch()<CR>
 nnoremap <silent> <leader>a :ArgWrap<CR>
 
 " git commands

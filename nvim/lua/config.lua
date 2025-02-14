@@ -35,6 +35,10 @@ require("lazy").setup({
   "tpope/vim-fugitive",
   --"github/copilot.vim",
   --"TabbyML/vim-tabby",
+  {
+    'aneeshdurg/winsearch',
+    dependencies = { "nvim-telescope/telescope.nvim" },
+  },
 })
 
 require'lspconfig'.tsserver.setup {}
