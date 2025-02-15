@@ -23,3 +23,4 @@ wm.binding.launcher.window: backslash
 
 # orion specific config:
 wm.bar.mode: hide
+wm.program.sleep: gnome-screenshot -i
