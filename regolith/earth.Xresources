@@ -27,3 +27,4 @@ wm.binding.launcher.window: backslash
 # earth specific config:
 wm.bar.position: top
 wm.program.terminal: /home/aneesh/.cargo/bin/alacritty
+wm.program.sleep: gnome-screenshot -i
