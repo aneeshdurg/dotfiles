@@ -18,5 +18,5 @@
   "vim-javascript": { "branch": "master", "commit": "c470ce1399a544fe587eab950f571c83cccfbbdc" },
   "vim-jinja": { "branch": "master", "commit": "7c54e2320c5f676636cdd8697480782eebfb2bf2" },
   "vim-startify": { "branch": "master", "commit": "4e089dffdad46f3f5593f34362d530e8fe823dcf" },
-  "winsearch": { "branch": "main", "commit": "f8905028d09b6bb6b644324124854804c4684f91" }
+  "winsearch": { "branch": "main", "commit": "0ccc4d2a40b63239ff819fde3c71cdcf10a45d32" }
 }

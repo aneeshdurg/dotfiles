@@ -1,0 +1,12 @@
+[global]
+  origin = bottom-right
+  scale = 4
+  transparency = 25
+  corner_radius = 3
+  font = monospace 10
+  padding = 5
+  frame_width = 1
+  gap_size = 1
+
+[urgency_normal]
+  background = "#000000af"
