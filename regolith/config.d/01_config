@@ -17,3 +17,5 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+Tab exec ~/dotfiles/regolith/scripts/switch_ws.py next
 ## Navigate // Move Workspace to previous monitor // <><Shift> Tab ##
 bindsym $mod+Shift+Tab exec ~/dotfiles/regolith/scripts/switch_ws.py prev
+
+bindsym $mod+Shift+o exec ~/dotfiles/regolith/scripts/dodge.py
