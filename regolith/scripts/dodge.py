@@ -48,6 +48,9 @@ def cleanup(p: subprocess.Popen):
     p.wait()
 
 
+padding = 25
+
+
 def daemon(window_id: int, procfile: Path):
     print("creating proc file")
     with procfile.open("w") as f:
@@ -83,25 +86,28 @@ def daemon(window_id: int, procfile: Path):
 
             # we're using manhattan distance here for each corner
             _d, closest_corner = min(
-                (x + y, 0),
-                (x + (height - (y + h)), 1),
-                ((width - (x + w)) + y, 2),
-                ((width - (x + w)) + (height - (y + h)), 3),
+                (abs(x - padding) + abs(y - padding), 0),
+                (abs(x - padding) + abs(height - padding - (y + h)), 1),
+                (abs(width - padding - (x + w)) + abs(y - padding), 2),
+                (abs(width - padding - (x + w)) + abs(height - padding - (y + h)), 3),
+                (abs(width / 2 - (x + w / 2)) + abs(height / 2 - (y + h/ 2)), 4),
             )
-            target_corner = (closest_corner + 1) % 4
+            target_corner = (closest_corner + 1) % 5
 
-            target_x = 0
-            target_y = 0
+            target_x = padding
+            target_y = padding
             if target_corner == 0:
                 pass
             elif target_corner == 1:
-                target_y = height - h
+                target_y = height - padding - h
             elif target_corner == 2:
-                target_x = width - w
+                target_x = width - padding - w
             elif target_corner == 3:
-                target_y = height - h
-                target_x = width - w
-                pass
+                target_y = height - padding - h
+                target_x = width - padding - w
+            else:
+                target_y = height / 2 - h / 2
+                target_x = width/  2 - w / 2
 
             # print("move", window_id, target_x, target_y)
             subprocess.check_call(
