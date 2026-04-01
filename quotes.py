@@ -33,6 +33,7 @@ quotes = [
     "Because it's there.\n\t-George Mallory",
     "We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard.\n\t-John F. Kennedy",
     "I did it for the fun of it.\n\t-Amelia Aerhart, 20 Hours and 40 Minutes",
+    "I HAVE NO TOOLS BECAUSE I’VE DESTROYED MY TOOLS WITH MY TOOLS.\n\t-James Mickens, The Night Watch"
     ]
 
 r = randint(0, len(quotes)-1)

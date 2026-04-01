@@ -209,4 +209,3 @@ function sethuge
   gethuge
 end
 complete -c sethuge --no-files -ra 'always madvise never'
-

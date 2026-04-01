@@ -9,7 +9,7 @@ bindsym $mod+e layout toggle split
 
 for_window[title="Zoom - Licensed Account"] floating enable
 for_window[title="zoom"] floating enable
-for_window[title="Chat"] floating enable
+for_window[title="Settings"] floating enable
 
 bindsym $mod+Shift+space floating toggle
 
