@@ -71,7 +71,18 @@ function vim
 end
 complete -e -c vim
 complete -F -c vim
-
+# svim opens a file in a hsplit instead of a vsplit
+if [ "$NVIM_ACTIVE" = "" ]
+  alias svim='vim'
+  alias tvim='vim'
+  alias vcd='echo'
+else
+  alias svim='nvr -cc sp'
+  alias tvim='nvr -cc tabe'
+  function vcd
+    nvr -cc (string join " " cd (realpath $argv[1]))
+  end
+end
 
 function tmux_status -d "Print running tmux sessions"
   echo -ne "Running tmux sessions: \n\t\033[1;32m"
@@ -132,6 +143,16 @@ function gc
   set cmd "fzy"
   if test (count $argv) -gt 0
     set cmd "fzy -e \"$argv\" | head -n 1"
+    if test $argv[1] = "-"
+      # gc - is like cd - => goes back to the previous checkout
+      git checkout (
+        git reflog | # scan reflog
+        grep "HEAD@{[0-9]*}: checkout: " -A 1 | # find all checkouts
+        head -n 1 | # Get most recent checkout
+        rev | cut -d\  -f3 | rev # get the "from" name (blah blah blah... from <> to <>)
+      )
+      return
+    end
   end
   set branch_name (gb | rev | cut -d\  -f 1 | rev | eval $cmd)
   git checkout $branch_name
@@ -182,3 +203,21 @@ function gcd --wraps 'cd'
   end
   builtin cd $argv
 end
+
+# Dangerous commands that are useful
+alias drop_caches="echo 3 | sudo tee /proc/sys/vm/drop_caches"
+alias disable_aslr="echo 0 | sudo tee /proc/sys/kernel/randomize_va_space"
+alias enable_perf="echo -1 | sudo tee /proc/sys/kernel/perf_event_paranoid"
+function gethuge
+  cat /sys/kernel/mm/transparent_hugepage/enabled
+end
+function sethuge
+  if not contains $argv[1] always madvise never
+    echo "invalid usage" >&2
+    return 1
+  end
+  echo $argv[1] | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
+  gethuge
+end
+complete -c sethuge --no-files -ra 'always madvise never'
+

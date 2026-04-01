@@ -39,24 +39,95 @@ require("lazy").setup({
     'aneeshdurg/winsearch',
     dependencies = { "nvim-telescope/telescope.nvim" },
   },
+  {
+    'kaarmu/typst.vim',
+    ft='typst',
+    lazy=false,
+  },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^6',
+    lazy = false,
+  },
+  {
+    "olimorris/codecompanion.nvim",
+    version = "^18.0.0",
+    opts = {},
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+  },
 })
 
-require'lspconfig'.ts_ls.setup {}
+require("codecompanion").setup({
+  interactions = {
+    chat = {
+      adapter = "ollama",
+    },
+    inline = {
+      adapter = "ollama",
+    },
+    cmd = {
+      adapter = "ollama",
+    },
+    background = {
+      adapter = "ollama",
+    },
+  },
+  adapters = {
+    http = {
+      ollama = function()
+        return require("codecompanion.adapters").extend("ollama", {
+          env = {
+            url = "127.0.0.1:11434",
+          },
+          parameters = {
+            sync = true,
+          },
+        })
+      end,
+    },
+  },
+})
 
-require'lspconfig'.clangd.setup{
+vim.lsp.config.clangd = {
+  cmd = { 'clangd', '--background-index' },
+  root_markers = { 'compile_commands.json', 'compile_flags.txt' },
+  filetypes = { 'c', 'cpp' },
 }
+
+vim.lsp.enable({'clangd'})
+
+-- vim.api.nvim_create_autocmd('LspAttach', {
+--   callback = function(ev)
+--     local client = vim.lsp.get_client_by_id(ev.data.client_id)
+--     if client:supports_method('textDocument/completion') then
+--       vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+--     end
+--   end,
+-- })
+
+
+vim.lsp.config('ts_ls', {})
+vim.lsp.enable('ts_ls')
+vim.lsp.config('pyright', {})
+vim.lsp.enable('pyright')
+vim.lsp.config('ruff', {})
+vim.lsp.enable('ruff')
+vim.lsp.config('clangd', {})
+vim.lsp.enable('clangd')
+vim.lsp.enable('bashls')
+
+-- require'lspconfig'.clangd.setup{
+-- }
 -- require'lspconfig'.pyright.setup{
 --   cmd = { "/home/aneesh/miniconda3/bin/conda", "run", "-n", "base", "--no-capture-output", "pyright-langserver", "--stdio" }
 -- }
-require'lspconfig'.pyright.setup{}
-require'lspconfig'.ruff.setup{}
+-- require'lspconfig'.pyright.setup{}
+-- require'lspconfig'.ruff.setup{}
 
-require'lspconfig'.jdtls.setup{
-  cmd = { "conda", "run", "-n", "jdtls", "--no-capture-output", "/Users/aneesh/jdtls/bin/jdtls" }
-}
-
-
-require'lspconfig'.rust_analyzer.setup{}
+-- require'lspconfig'.rust_analyzer.setup{}
 -- require'treesitter-context'.setup{
 --     enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
 --     throttle = true, -- Throttles plugin updates (may improve performance)
@@ -64,3 +135,11 @@ require'lspconfig'.rust_analyzer.setup{}
 
 
 vim.keymap.set("v", "gf", vim.lsp.buf.format, { noremap = true, silent = true })
+
+vim.o.winborder = 'rounded'
+
+vim.diagnostic.config({
+  virtual_text = false,
+  virtual_lines = true,
+})
+

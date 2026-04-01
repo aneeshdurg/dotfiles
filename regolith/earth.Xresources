@@ -15,7 +15,9 @@ wm.binding.ws_next:  shift+period
 wm.binding.ws_prev:  shift+comma
 
 wm.binding.launcher.app:  d
+
 wm.binding.launcher.cmd:  Shift+d
+wm.program.launcher.cmd:  /home/aneesh/dotfiles/regolith/scripts/dodge.py
 
 wm.binding.display: Ctrl+d
 wm.binding.wifi: Ctrl+w
@@ -24,7 +26,6 @@ wm.binding.shutdown: Ctrl+Escape
 
 wm.binding.launcher.window: backslash
 
-# earth specific config:
 wm.bar.position: top
 wm.program.terminal: /home/aneesh/.cargo/bin/alacritty
 wm.program.sleep: gnome-screenshot -i

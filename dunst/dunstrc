@@ -1,7 +1,6 @@
 [global]
   origin = bottom-right
   scale = 4
-  transparency = 25
   corner_radius = 3
   font = monospace 10
   padding = 5

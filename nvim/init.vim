@@ -8,8 +8,11 @@ let g:htl_all_templates = "true"
 set hidden
 
 nnoremap <silent> <leader>f :lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> cn :lua vim.diagnostic.goto_next()<CR>
+nnoremap <silent> cp :lua vim.diagnostic.goto_prev()<CR>
 nnoremap <silent> KK :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> K :Telescope lsp_definitions<CR>
+nnoremap <silent> KM :Man<CR>
 nnoremap <silent> <F2> :lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> R :Telescope lsp_references<CR>
 nnoremap <silent> gf :lua vim.lsp.buf.format()<CR>
@@ -92,10 +95,12 @@ let $NVIM_LISTEN_ADDRESS=v:servername
 
 autocmd BufNewFile,BufRead *.qs set syntax=cs
 autocmd BufNewFile,BufRead *.fish set syntax=sh
+autocmd BufNewFile,BufRead strace.log.* set syntax=strace
 
 autocmd BufNewFile,BufRead bash-fc* set filetype=bashfc
 autocmd BufNewFile,BufRead *tmp.*.fish set filetype=bashfc
 autocmd BufNewFile,BufRead tmp.*.fish set filetype=bashfc
+
 
 autocmd TermOpen * set filetype=terminal
 

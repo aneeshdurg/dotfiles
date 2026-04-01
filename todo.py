@@ -1,11 +1,14 @@
 #!/usr/bin/env python
+import os
 import sys
+from dataclasses import dataclass
+from typing import Self
 
 from colorama import Fore, Style
 
 
-def print_color(color, *args, end='\n'):
-    print(color, end='')
+def print_color(color, *args, end="\n"):
+    print(color, end="")
 
     print(*args, end=Style.RESET_ALL + end)
 
@@ -17,49 +20,72 @@ def print_tagged(tag, content):
         tag_color = Fore.MAGENTA
     else:
         tag_color = Fore.LIGHTBLACK_EX
-    print_color(tag_color, tag, end='')
+    print_color(tag_color, tag, end="")
     print(content)
 
 
-def print_subtask(content):
-    if content.strip().startswith('x '):
-        print_color(Fore.LIGHTBLACK_EX, content)
-    else:
-        print(content)
+@dataclass
+class Task:
+    content: str
+    subtasks: list[Self]
+
+    @property
+    def completed(self) -> bool:
+        return self.content.startswith("x ")
+
+    def print(self, indent: str = ""):
+        print(indent, end="")
+        if self.completed:
+            print_color(Fore.LIGHTBLACK_EX, self.content)
+        else:
+            if self.content.startswith("("):
+                tag = self.content[:3]
+                content = self.content[3:]
+                print_tagged(tag, content)
+            else:
+                print(self.content)
+            for subtask in self.subtasks:
+                subtask.print(indent=indent + "  ")
+
+
+@dataclass
+class TaskList:
+    heading: str | None
+    tasks: list[Task]
+
+    def print(self):
+        if self.heading:
+            print_color(Style.BRIGHT, self.heading)
+        for task in self.tasks:
+            task.print()
+
+
+lists: list[TaskList] = [TaskList(None, [])]
+
+
+def at_school():
+    ip = os.environ.get("SSH_CLIENT", "foo bar baz").split()[0]
+    return ip.startswith("128.62.")
+
+
+hide_if_heading = {"# Wedding": at_school}
 
 
 with open(sys.argv[1]) as f:
-    lines = [l.rstrip() for l in f.readlines()]
-    i = 0
-    completed = []
-    while i < len(lines):
-        l = lines[i]
-
-        subtasks = 0
-        j = i + 1
-        while j < len(lines) and lines[j].startswith(' '):
-            subtasks += 1
-            j += 1
-
-        if l.startswith('x'):
-            completed.append((i, subtasks))
+    lines = [line.rstrip() for line in f.readlines()]
+    for line in lines:
+        if line.startswith("#"):
+            list_ = TaskList(line, [])
+            lists.append(list_)
         else:
-            if l.startswith('('):
-                tag = l[:3]
-                l = l[3:]
-                print_tagged(tag, l)
+            list_ = lists[-1]
+            if line.startswith(" ") and list_.tasks:
+                list_.tasks[-1].subtasks.append(Task(line.strip(), []))
             else:
-                if l.startswith('#'):
-                    print_color(Style.BRIGHT, l)
-                else:
-                    print(l)
-            for j in range(i + 1, i + subtasks + 1):
-                print_subtask(lines[j])
-        i += subtasks + 1
+                list_.tasks.append(Task(line, []))
 
-    for task, subtasks in completed:
-        print_color(Fore.LIGHTBLACK_EX, lines[task])
-        if len(sys.argv) > 2:
-            # Only print completed subtasks in verbose mode
-            for j in range(task + 1, task + subtasks + 1):
-                print_color(Fore.LIGHTBLACK_EX, lines[j])
+    for list_ in lists:
+        if list_.heading and (f := hide_if_heading.get(list_.heading)):
+            if f():
+                continue
+        list_.print()
