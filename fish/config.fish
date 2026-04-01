@@ -1,6 +1,5 @@
 # A fish prompt that looks suspiciously like the bash prompt
-set -gx PATH /home/aneesh/.local/bin/ $PATH
-set -gx PATH /home/aneesh/.local/bin/ $PATH
+set -gx PATH /home/$USER/.local/bin/ $PATH
 function fish_prompt
   echo -n (set_color --bold 9eef00)"$USER""@"(hostname)
   echo -n (set_color normal):
