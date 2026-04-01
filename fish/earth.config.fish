@@ -1,6 +1,16 @@
 set -gx PATH /home/aneesh/.dprint/bin/ $PATH
-
 set -gx PATH /home/aneesh/.local/bin/ $PATH
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if test -f /Users/aneesh/mambaforge/bin/conda
+  eval /Users/aneesh/mambaforge/bin/conda "shell.fish" "hook" $argv | source
+end
+if test -f /home/aneesh/miniconda3/bin/conda
+  eval /home/aneesh/miniconda3/bin/conda "shell.fish" "hook" $argv | source
+end
+
+# <<< conda initialize <<<
 
 function run_in_ns
   set pid (docker inspect $argv[1] | jq \.[0].State.Pid)

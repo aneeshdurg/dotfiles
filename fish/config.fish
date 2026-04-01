@@ -167,17 +167,6 @@ end
 # figlet: conda
 ################################################################################
 set -x CONDA_LEFT_PROMPT "true"
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if test -f /Users/aneesh/mambaforge/bin/conda
-  eval /Users/aneesh/mambaforge/bin/conda "shell.fish" "hook" $argv | source
-end
-if test -f /home/aneesh/miniconda3/bin/conda
-  eval /home/aneesh/miniconda3/bin/conda "shell.fish" "hook" $argv | source
-end
-
-# <<< conda initialize <<<
-
 # hack for getting conda env vars to work in fish when switching envs
 alias r='conda run --live-stream'
 function ca
