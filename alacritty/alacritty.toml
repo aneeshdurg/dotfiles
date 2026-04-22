@@ -16,3 +16,10 @@ save_to_clipboard = true
   magenta = "#A347BA"
   cyan = "#2AA1B3"
   white = "#D0CFCC"
+
+[env]
+WINIT_X11_SCALE_FACTOR="1.0"
+
+[font]
+size = 10
+

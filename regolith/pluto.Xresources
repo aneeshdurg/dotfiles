@@ -23,4 +23,4 @@ wm.binding.launcher.window: backslash
 
 wm.bar.mode: hide
 wm.program.sleep: gnome-screenshot -i
-m.program.terminal: /usr/bin/alacritty
+wm.program.terminal: /usr/bin/alacritty
