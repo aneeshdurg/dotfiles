@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ title }}</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, system-ui, sans-serif; margin: 2rem; background: #fff; color: #111; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #1e1e1e; color: #ddd; }
+    a { color: #6cb6ff; }
+    tr:hover { background: #2a2a2a !important; }
+    #search { background: #2a2a2a; color: #ddd; border-color: #444; }
+    th { border-bottom-color: #444; }
+  }
+  h1 { font-size: 1.1rem; font-family: monospace; word-break: break-all; }
+  h1 a { text-decoration: none; color: inherit; }
+  h1 a:hover { text-decoration: underline; }
+  #search {
+    width: 100%; box-sizing: border-box; padding: 0.5rem; font-size: 1rem;
+    margin-bottom: 1rem; border: 1px solid #999; border-radius: 4px;
+  }
+  table { border-collapse: collapse; width: 100%; font-family: monospace; font-size: 0.9rem; }
+  th, td { text-align: left; padding: 0.25rem 0.75rem 0.25rem 0; white-space: nowrap; }
+  th { cursor: pointer; user-select: none; position: sticky; top: 0; background: inherit; border-bottom: 1px solid #ddd; }
+  th::after { content: ""; opacity: 0.4; margin-left: 0.25rem; }
+  th.sort-asc::after { content: "\25B2"; }
+  th.sort-desc::after { content: "\25BC"; }
+  td.name { white-space: normal; word-break: break-all; }
+  tr:hover { background: #f5f5f5; }
+  .dir { font-weight: bold; }
+  .muted { color: #888; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<h1>
+  {% for label, href in breadcrumbs %}
+    {% if not loop.last %}<a href="{{ href }}">{{ label }}</a>/{% else %}{{ label }}{% endif %}
+  {% endfor %}
+</h1>
+<input id="search" type="text" placeholder="fuzzy filter files/dirs..." autofocus>
+<table id="listing">
+  <thead>
+    <tr>
+      <th data-key="name">Name</th>
+      <th data-key="size">Size</th>
+      <th data-key="perm">Permissions</th>
+      <th data-key="owner">Owner</th>
+      <th data-key="group">Group</th>
+      <th data-key="mtime">Modified</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if not is_root %}
+    <tr class="nofilter">
+      <td class="name"><a href="{{ parent_href }}">..</a></td>
+      <td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    {% endif %}
+    {% for e in entries %}
+    <tr data-name="{{ e.name|lower }}" data-size="{{ e.size }}" data-perm="{{ e.perm }}"
+        data-owner="{{ e.owner|lower }}" data-group="{{ e.group|lower }}" data-mtime="{{ e.mtime }}">
+      <td class="name {{ 'dir' if e.is_dir else '' }}">
+        <a href="{{ e.href }}">{{ e.name }}{% if e.is_dir %}/{% endif %}</a>
+        {% if e.symlink_target %}<span class="muted"> -&gt; {{ e.symlink_target }}</span>{% endif %}
+      </td>
+      <td>{{ e.size_human }}</td>
+      <td>{{ e.perm }}</td>
+      <td>{{ e.owner }}</td>
+      <td>{{ e.group }}</td>
+      <td>{{ e.mtime_human }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+const search = document.getElementById('search');
+const tbody = document.querySelector('#listing tbody');
+const rows = () => Array.from(tbody.querySelectorAll('tr:not(.nofilter)'));
+
+function fuzzyMatch(query, text) {
+  if (!query) return true;
+  query = query.toLowerCase();
+  let qi = 0;
+  for (let i = 0; i < text.length && qi < query.length; i++) {
+    if (text[i] === query[qi]) qi++;
+  }
+  return qi === query.length;
+}
+
+search.addEventListener('input', () => {
+  const q = search.value;
+  for (const row of rows()) {
+    row.classList.toggle('hidden', !fuzzyMatch(q, row.dataset.name));
+  }
+});
+
+let sortKey = null, sortDir = 1;
+document.querySelectorAll('th[data-key]').forEach(th => {
+  th.addEventListener('click', () => {
+    const key = th.dataset.key;
+    sortDir = (sortKey === key) ? -sortDir : 1;
+    sortKey = key;
+    document.querySelectorAll('th').forEach(h => h.classList.remove('sort-asc', 'sort-desc'));
+    th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+
+    const sorted = rows().sort((a, b) => {
+      let av = a.dataset[key], bv = b.dataset[key];
+      if (key === 'size' || key === 'mtime') { av = Number(av); bv = Number(bv); }
+      if (av < bv) return -1 * sortDir;
+      if (av > bv) return 1 * sortDir;
+      return 0;
+    });
+    for (const row of sorted) tbody.appendChild(row);
+  });
+});
+</script>
+</body>
+</html>
