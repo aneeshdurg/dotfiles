@@ -73,3 +73,5 @@ end
 
 # source ~/.asdf/asdf.fish
 alias asterdock="docker run -it --privileged --network=host --device=/dev/kvm -v (pwd)/:/root/asterinas ldosproject/asterinas:0.15.2-20250613"
+
+alias co="COPILOT_PROVIDER_MAX_PROMPT_TOKENS=100000 COPILOT_PROVIDER_MAX_OUTPUT_TOKENS=(math \"196608-100000\") ollama launch copilot --model odytrice/qwen3.8:4090-27b"

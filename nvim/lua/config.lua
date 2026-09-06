@@ -27,6 +27,7 @@ require("lazy").setup({
   "pangloss/vim-javascript",
   "radenling/vim-dispatch-neovim",
   "tpope/vim-dispatch",
+  "tpope/vim-eunuch",
   "nvim-treesitter/nvim-treesitter",
   -- "romgrk/nvim-treesitter-context",
   "udalov/kotlin-vim",
@@ -57,6 +58,21 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
+  },
+  {
+    "3rd/image.nvim",
+    build = false, -- so that it doesn't build the rock https://github.com/3rd/image.nvim/issues/91#issuecomment-2453430239
+    opts = {
+        processor = "magick_cli",
+    }
+  },
+  {
+    "benlubas/molten-nvim",
+    version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+    build = ":UpdateRemotePlugins",
+    init = function()
+        vim.g.molten_image_provider = "image.nvim"
+    end,
   },
 })
 
@@ -142,3 +158,14 @@ vim.diagnostic.config({
   virtual_text = false,
   virtual_lines = true,
 })
+
+vim.keymap.set("n", "<localleader>mi", ":MoltenInit<CR>",
+    { silent = true, desc = "Initialize the plugin" })
+vim.keymap.set("n", "<localleader>e", ":MoltenEvaluateOperator<CR>",
+    { silent = true, desc = "run operator selection" })
+vim.keymap.set("n", "<localleader>rl", ":MoltenEvaluateLine<CR>",
+    { silent = true, desc = "evaluate line" })
+vim.keymap.set("n", "<localleader>rr", ":MoltenReevaluateCell<CR>",
+    { silent = true, desc = "re-evaluate cell" })
+vim.keymap.set("v", "<localleader>r", ":<C-u>MoltenEvaluateVisual<CR>gv",
+    { silent = true, desc = "evaluate visual selection" })
