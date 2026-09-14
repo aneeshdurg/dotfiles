@@ -87,10 +87,14 @@ Don't try to cram these into the `-cc` string. Instead:
    invocation of this same pattern would clobber it mid-run.
 2. `Write` the commands to that path, with `rm -f <path>` as the *last* line so
    the script deletes itself once done.
-3. Open it with `nvr -cc "split | terminal bash -ix <path>"` — `-i` makes bash
-   prompt-echo each command as it runs (so the user watches it happen live,
-   including `sudo` password prompts if needed), `-x` additionally traces
-   expanded commands.
+3. Open it with `nvr -cc split --remote-wait "term://bash -ix <path>"` — `-i`
+   makes bash prompt-echo each command as it runs (so the user watches it happen
+   live, including `sudo` password prompts if needed), `-x` additionally traces
+   expanded commands. Using `term://` (instead of `terminal`) together with
+   `--remote-wait` makes the `nvr` invocation itself **block** until the script's
+   process exits, so the Bash tool call doesn't return until the user's script is
+   actually done — this is what lets you know the script finished instead of
+   guessing or polling.
 
 ```sh
 tmp=$(mktemp /tmp/nvr-cmd.XXXXXX.sh)
@@ -99,13 +103,15 @@ sudo systemctl restart foo
 sudo journalctl -u foo -n 20
 rm -f $tmp
 EOF
-nvr -cc "split | terminal bash -ix $tmp"
+nvr -cc split --remote-wait "term://bash -ix $tmp"
 ```
 
 This is the go-to pattern any time you need the user to run something you can't
 run yourself (e.g. a scoped sudo grant that doesn't cover this specific command) —
 write it once, hand it to their live editor to execute, no re-typing or copy-paste
-errors, and no leftover script file afterward.
+errors, and no leftover script file afterward. Because the call blocks until the
+process exits, you'll be notified the moment it completes rather than having to
+ask the user or poll.
 
 ## Notes
 
