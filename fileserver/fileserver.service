@@ -1,0 +1,13 @@
+[Unit]
+Description=Read-only dev fileserver on port 8000
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=%h/miniconda3/bin/fileserver --port 8000 --root %h
+WorkingDirectory=%h
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
