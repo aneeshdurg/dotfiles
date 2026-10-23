@@ -74,13 +74,23 @@ complete -F -c vim
 if [ "$NVIM_ACTIVE" = "" ]
   alias svim='vim'
   alias tvim='vim'
+  alias ovim='vim'
   alias vcd='echo'
 else
   alias svim='nvr -cc sp'
   alias tvim='nvr -cc tabe'
+  function ovim
+    nvr $argv[1]
+    exit
+  end
   function vcd
     nvr -cc (string join " " cd (realpath $argv[1]))
   end
+  # Report cwd to neovim via OSC 7 so terminal panes can autochdir
+  function print_osc7 --on-variable PWD
+    printf "\033]7;file://%s%s\033\\" $hostname $PWD
+  end
+  print_osc7
 end
 
 function tmux_status -d "Print running tmux sessions"
@@ -200,11 +210,18 @@ function gethuge
   cat /sys/kernel/mm/transparent_hugepage/enabled
 end
 function sethuge
-  if not contains $argv[1] always madvise never
-    echo "invalid usage" >&2
-    return 1
-  end
-  echo $argv[1] | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
+  eval (
+    argparsh parse (
+        argparsh new sethuge -d "set hugepage enabled"
+        argparsh add_arg --choice always --choice madvise --choice never \
+          -- "setting"
+      ) \
+      --custom-format "set -l %k %v" \
+      --custom-error "return %e" \
+      -- $argv
+  )
+  echo "changing setting to" $setting
+  echo $setting | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
   gethuge
 end
 complete -c sethuge --no-files -ra 'always madvise never'

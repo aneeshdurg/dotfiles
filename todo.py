@@ -13,15 +13,29 @@ def print_color(color, *args, end="\n"):
     print(*args, end=Style.RESET_ALL + end)
 
 
+def strike(text):
+    result = ""
+    for c in text:
+        result = result + c + "\u0336"
+    return result
+
+
 def print_tagged(tag, content):
+    content_color = Fore.RESET
     if tag == "(A)":
         tag_color = Fore.RED
     elif tag == "(B)":
         tag_color = Fore.MAGENTA
+    elif tag == "*":
+        tag_color = Fore.CYAN
+    elif tag == "~":
+        content_color = Fore.LIGHTBLACK_EX
+        content = strike(content)
+        tag_color = Fore.LIGHTBLACK_EX
     else:
         tag_color = Fore.LIGHTBLACK_EX
     print_color(tag_color, tag, end="")
-    print(content)
+    print_color(content_color, content)
 
 
 @dataclass
@@ -41,6 +55,10 @@ class Task:
             if self.content.startswith("("):
                 tag = self.content[:3]
                 content = self.content[3:]
+                print_tagged(tag, content)
+            elif len(self.content) >= 1 and self.content[0] in ("*", "~"):
+                tag = self.content[:1]
+                content = self.content[1:]
                 print_tagged(tag, content)
             else:
                 print(self.content)
@@ -68,7 +86,7 @@ def at_school():
     return ip.startswith("128.62.")
 
 
-hide_if_heading = {"# Wedding": at_school}
+hide_if_heading = {"# Personal": at_school}
 
 
 with open(sys.argv[1]) as f:

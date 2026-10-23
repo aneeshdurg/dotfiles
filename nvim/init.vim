@@ -54,6 +54,7 @@ set number
 set textwidth=80
 set wildignorecase
 set autochdir
+set undofile "persistent undo
 
 " ___ _ __   __ _  ___(_)_ __   __ _
 "/ __| '_ \ / _` |/ __| | '_ \ / _` |
@@ -101,6 +102,8 @@ autocmd BufNewFile,BufRead bash-fc* set filetype=bashfc
 autocmd BufNewFile,BufRead *tmp.*.fish set filetype=bashfc
 autocmd BufNewFile,BufRead tmp.*.fish set filetype=bashfc
 
+autocmd BufNewFile,BufRead todo.txt set filetype=todotxt
+
 
 autocmd TermOpen * set filetype=terminal
 
@@ -134,6 +137,13 @@ autocmd FileType bashfc nnoremap <buffer> q<CR> :bd<CR>
 autocmd FileType bashfc nnoremap <buffer> wq<CR> :w\|bd<CR>
 
 autocmd FileType markdown setlocal spell spelllang=en_us
+
+autocmd FileType todotxt setlocal spell spelllang=en_us
+autocmd FileType todotxt set syntax=markdown
+autocmd FileType todotxt nnoremap <buffer> :q<CR> :bd<CR>
+autocmd FileType todotxt nnoremap <buffer> :wq<CR> :w\|bd<CR>
+autocmd FileType todotxt nnoremap <buffer> q<CR> :bd<CR>
+autocmd FileType todotxt nnoremap <buffer> wq<CR> :w\|bd<CR>
 
 " Double escape to return to normal mode in terminal
 tnoremap <Esc><Esc> <C-\><C-n>

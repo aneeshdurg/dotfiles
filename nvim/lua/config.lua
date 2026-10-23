@@ -169,3 +169,31 @@ vim.keymap.set("n", "<localleader>rr", ":MoltenReevaluateCell<CR>",
     { silent = true, desc = "re-evaluate cell" })
 vim.keymap.set("v", "<localleader>r", ":<C-u>MoltenEvaluateVisual<CR>gv",
     { silent = true, desc = "evaluate visual selection" })
+
+-- autochdir for terminal panes: shells report their cwd via OSC 7 (see
+-- print_osc7 in fish/config.fish), stash it on the buffer, and cd to it
+-- whenever the terminal is focused.
+-- https://lacamb.re/blog/osc7_in_neovim_third_time.html
+vim.api.nvim_create_autocmd('TermRequest', {
+  callback = function(e)
+    if string.sub(vim.v.termrequest, 1, 4) ~= "\x1b]7;" then
+      return
+    end
+    local dir = string.gsub(vim.v.termrequest, "\x1b]7;file://[^/]*", "")
+    if vim.fn.isdirectory(dir) == 0 then
+      return
+    end
+    vim.b[e.buf].last_osc7_payload = dir
+    if vim.o.autochdir and vim.api.nvim_get_current_buf() == e.buf then
+      pcall(vim.cmd.cd, dir)
+    end
+  end,
+})
+vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'DirChanged' }, {
+  callback = function()
+    local dir = vim.b.last_osc7_payload
+    if dir ~= nil and vim.fn.isdirectory(dir) == 1 and vim.fn.getcwd() ~= dir then
+      pcall(vim.cmd.cd, dir)
+    end
+  end,
+})
